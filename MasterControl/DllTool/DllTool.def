@@ -1,0 +1,7 @@
+LIBRARY
+
+LIBRARY   BTREE
+EXPORTS
+	Connect
+	CreateExportObj
+	DestroyExportObj

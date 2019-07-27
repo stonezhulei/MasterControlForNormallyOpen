@@ -1,7 +1,0 @@
-C:\Users\xx\Desktop\MasterControl\UITest\bin\Debug\UITest.exe
-C:\Users\xx\Desktop\MasterControl\UITest\bin\Debug\UITest.pdb
-C:\Users\xx\Desktop\MasterControl\UITest\obj\x86\Debug\UITest.csprojResolveAssemblyReference.cache
-C:\Users\xx\Desktop\MasterControl\UITest\obj\x86\Debug\UITest.Properties.Resources.resources
-C:\Users\xx\Desktop\MasterControl\UITest\obj\x86\Debug\UITest.csproj.GenerateResource.Cache
-C:\Users\xx\Desktop\MasterControl\UITest\obj\x86\Debug\UITest.exe
-C:\Users\xx\Desktop\MasterControl\UITest\obj\x86\Debug\UITest.pdb

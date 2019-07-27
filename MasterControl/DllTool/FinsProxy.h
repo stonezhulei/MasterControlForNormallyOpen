@@ -16,7 +16,6 @@ namespace OmronPlc
 		~FinsProxy(void);
 
 		bool Connect();
-
 		void Close();
 		//void SetRemote(String^ ipaddr, uint16_t port)
 		//{
@@ -28,9 +27,10 @@ namespace OmronPlc
 		//}
 
 		bool ReadDM(uint16_t address, uint16_t %value);
-		bool ReadDM(uint16_t address, uint8_t data[], uint16_t count);
-		bool ReadDM(uint16_t address, uint16_t data[], uint16_t count);
-		bool WriteDM(uint16_t address, uint8_t data[], uint16_t count);
+		bool ReadDM(uint16_t address, uint32_t %value);
+		bool ReadDM(uint16_t address, array<uint8_t>^ data); 
+		bool ReadDM(uint16_t address, array<uint16_t>^ data);
+		bool WriteDM(uint16_t address, array<uint8_t>^ data);
 		bool WriteDM(uint16_t address, const uint16_t data);
 
 	private:

@@ -36,6 +36,8 @@ namespace OmronPlc
 		bool MemoryAreaRead(MemoryArea area, uint16_t address, uint8_t bit_position, uint16_t count);
 		bool MemoryAreaWrite(MemoryArea area, uint16_t address, uint8_t bit_position, uint16_t count, uint8_t data[]);
 
+		uint32_t ReadDM(uint16_t address);
+		bool ReadDM(uint16_t address, uint32_t &value);
 		bool ReadDM(uint16_t address, uint16_t &value);
 		bool ReadDM(uint16_t address, int16_t &value);
 		bool ReadDM(uint16_t address, uint8_t data[], uint16_t count);

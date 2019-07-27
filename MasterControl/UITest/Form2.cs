@@ -9,15 +9,13 @@ using System.Windows.Forms;
 
 namespace UITest
 {
-    public partial class Form1 : Form
+    public partial class Form2 : Form
     {
         private const int OPNUM = 18;
         private List<WorkStation> wslist = new List<WorkStation>();
-        
-        public Form1()
+        public Form2()
         {
             InitializeComponent();
-
             // 取得当前的屏幕除任务栏外的工作域大小
             this.Width = SystemInformation.WorkingArea.Width;
             this.Height = SystemInformation.WorkingArea.Height;
@@ -38,13 +36,13 @@ namespace UITest
                 ws.TopLevel = false;
                 ws.Parent = this;
                 //ws.MdiParent = this;
-                this.pnlBody.Controls.Add(ws);
+                this.tpnl.Controls.Add(ws);
                 ws.Show();
 
                 int r = i / 6;
                 int c = i % 6;
 
-                ws.Left =  c * ws.Width;
+                ws.Left = c * ws.Width;
                 ws.Top = r * ws.Height;
                 wslist.Add(ws);
             }

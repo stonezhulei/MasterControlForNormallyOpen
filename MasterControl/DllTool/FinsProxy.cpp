@@ -80,7 +80,7 @@ bool FinsProxy::WriteDM(uint16_t address, array<uint8_t>^ data)
 		temp[i] = data[i];
 	}
 
-	bool ret = _fins->WriteDM(address, temp, count, true);
+	bool ret = _fins->WriteDM(address, temp, count);
 
 	delete []temp;
 	return ret;

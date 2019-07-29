@@ -43,7 +43,7 @@ namespace OmronPlc
 		bool ReadDM(uint16_t address, uint8_t data[], uint16_t count);
 		bool ReadDM(uint16_t address, uint16_t data[], uint16_t count);
 		bool WriteDM(uint16_t address, const uint16_t value);
-		bool WriteDM(uint16_t address, uint8_t data[], uint16_t count, bool reserve = true); // Ð´×Ö·û´®
+		bool WriteDM(uint16_t address, uint8_t data[], uint16_t count); // Ð´×Ö·û´®
 		bool ClearDM(uint16_t address, uint16_t count);
 		
 		bool ReadCIOBit(uint16_t address, uint8_t bit_position, bool &value);

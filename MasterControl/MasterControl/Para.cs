@@ -21,10 +21,18 @@ namespace MasterControl
         public const int NGNUM = 4;
         public const int TOTALNUM = 5;
         public const int ClearControl = 6;
-        public const int TOPCDataStr1 = 7;
-        public const int TOPCDataStr2 = 8;
-        public const int TOPCDataStr3 = 9;
-        public const int TOPCDataStr4 = 10;
+        public const int ALLDataContorl = 7;
+        public const int TOPCDataStr1 = 8;
+        public const int TOPCDataStr2 = 9;
+        public const int TOPCDataStr3 = 10;
+        public const int TOPCDataStr4 = 11;
+
+        public const int RESTABLE = 3;
+
+        public const int PRESSURE = 2;
+        public const int POSITION = 3;
+        public const int FILENAME = 4;
+        public const int PRESSNUM = 5;
 
         private readonly string path;
 
@@ -33,6 +41,7 @@ namespace MasterControl
             this.path = path;
             LoadPLCIpConfig();
             LoadWorkstationAddr();
+            LoadPressAddr();
         }
 
         public void LoadPLCIpConfig()
@@ -65,15 +74,15 @@ namespace MasterControl
                 {
                     if (ushort.TryParse(values[i], out plcAddr[i]) && i == 0)
                     {
-                        --plcAddr[i];
+                        plcAddr[i] -= 1;
                     }  
                 }
 
                 addrList.Add(plcAddr);
             }
 
-            Worklist = addrList;
-            WorklistName = sectionList;
+            this.Worklist = addrList;
+            this.WorklistName = sectionList;
         }
 
         public void LoadPressAddr()
@@ -82,12 +91,33 @@ namespace MasterControl
             IniFiles iniManger = new IniFiles(path + "\\plcAddress2.ini");
             iniManger.ReadSections(sectionList);
 
+            List<ushort[]> addrList = new List<ushort[]>();
+            foreach (string section in sectionList)
+            {
+                NameValueCollection values = new NameValueCollection();
+                iniManger.ReadSectionValues(section, values);
+                ushort[] plcAddr = new ushort[values.Count];
+                for (int i = 0; i < values.Count; i++)
+                {
+                    if (ushort.TryParse(values[i], out plcAddr[i]) && i == 0)
+                    {
+                        plcAddr[i] -= 1;
+                    }
+                }
+
+                addrList.Add(plcAddr);
+            }
+
+            this.Presslist = addrList;
         }
 
         public StringCollection IpConfig { get; private set; }
 
+        public List<ushort[]> Presslist { get; private set; }
+
         public List<ushort[]> Worklist { get; private set; }
 
         public StringCollection WorklistName { get; private set; }
+
     }
 }

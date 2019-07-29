@@ -15,35 +15,48 @@ namespace UITest
         {
             InitializeComponent();
             this.lblTitle.Text = id.ToString();
-            RefreshResult(0, 0);
+            RefreshYeild(0, 0);
+
+            if (id == 19)
+            {
+                this.Width = 250;
+                this.Height = 280;
+                this.lblTitle.Font = new System.Drawing.Font("微软雅黑", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+                this.lblCapacity.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+                this.lblYield.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+                this.lblStatus.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+                this.tbxCapacity.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+                this.tbxYield.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            }
         }
 
         public void RefreshStatus(int status)
         {
             if (status == 8)
             {
-                lblStatus.Text = "准备OK";
+                lblStatus.Text = "准备";
             }
             else if (status == 9)
             {
-                lblStatus.Text = "运行中";
+                lblStatus.Text = "运行";
             }
             else if (status == 1)
             {
-                lblStatus.Text = "故障";
+                lblStatus.Text = "停止";
             }
 
             RefreshLight(status);
         }
 
-        public void RefreshResult(long count, long ok)
+        public void RefreshYeild(long count, long ok)
         {
             ok = (ok > 0) ? ok : 0;
             count = (count > 0) ? count : 0;
             double rate = (count != 0) ? ok * 100.0 / count : 0;
             
             tbxCapacity.Text = count.ToString();
-            tbxYield.Text = rate.ToString("0.##") + ((count != 0) ? "%" : "");
+            tbxYield.Text = rate.ToString("0.##");
+            tbxYield.Text += (tbxYield.Text != "0") ? "%" : "";
         }
 
         public void RefreshLight(int status)

@@ -2,10 +2,16 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterControl", "MasterControl\MasterControl.csproj", "{4ABFEFC5-19F6-409C-8440-D3858B2AC756}"
+	ProjectSection(ProjectDependencies) = postProject
+		{54D35D91-6363-41A4-9823-6B7F7E4F2CD4} = {54D35D91-6363-41A4-9823-6B7F7E4F2CD4}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DllTool", "DllTool\DllTool.vcxproj", "{54D35D91-6363-41A4-9823-6B7F7E4F2CD4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITest", "UITest\UITest.csproj", "{15FDAC74-09C8-4DEF-9CD8-7AD764AB2EDC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{54D35D91-6363-41A4-9823-6B7F7E4F2CD4} = {54D35D91-6363-41A4-9823-6B7F7E4F2CD4}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

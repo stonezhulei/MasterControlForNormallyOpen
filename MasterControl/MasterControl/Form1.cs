@@ -58,12 +58,8 @@ namespace MasterControl
             Init();
         }
 
-        /// <summary>
-        /// 加载配置
-        /// </summary>
         public void LoadConfig()
         {
-
             for (int op = 0; op < OPNUM; op++)
             {
                 ushort[] plcAddr = new ushort[PLCADDRSIZE];
@@ -76,9 +72,6 @@ namespace MasterControl
             }
         }
 
-        /// <summary>
-        /// 初始化
-        /// </summary>
         public void Init()
         {
             for (int i = 0; i < NUM; i++)

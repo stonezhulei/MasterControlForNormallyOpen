@@ -33,19 +33,56 @@ bool FinsProxy::ReadDM(uint16_t address, uint16_t %value)
 	return ret;
 }
 	
-bool FinsProxy::ReadDM(uint16_t address, uint8_t data[], uint16_t count)
+bool FinsProxy::ReadDM(uint16_t address, uint32_t %value)
 {
-	return _fins->ReadDM(address, data, count);
+	uint32_t data = 0;
+	//bool ret = _fins->ReadDM(address, value);
+	data = _fins->ReadDM(address);
+	value = data;
+	return true;
 }
 
-bool FinsProxy::ReadDM(uint16_t address, uint16_t data[], uint16_t count)
+bool FinsProxy::ReadDM(uint16_t address, array<uint8_t>^ data)
 {
-	return _fins->ReadDM(address, data, count);
+	uint16_t count = data->Length;
+	uint8_t *temp = new uint8_t[count];
+	bool ret = _fins->ReadDM(address, temp, count);
+	if (ret) {
+		for (int i = 0; i < count; i++) {
+			data[i] = temp[i];
+		}
+	}
+
+	delete []temp;
+	return ret;
 }
 
-bool FinsProxy:: WriteDM(uint16_t address, uint8_t data[], uint16_t count)
+bool FinsProxy::ReadDM(uint16_t address, array<uint16_t>^ data)
 {
-	bool ret = _fins->WriteDM(address, data, count, true);
+	uint16_t count = data->Length;
+	uint16_t *temp = new uint16_t[count];
+	bool ret = _fins->ReadDM(address, temp, count);
+	if (ret) {
+		for (int i = 0; i < count; i++) {
+			data[i] = temp[i];
+		}
+	}
+
+	delete []temp;
+	return ret;
+}
+
+bool FinsProxy::WriteDM(uint16_t address, array<uint8_t>^ data)
+{
+	uint16_t count = data->Length;
+	uint8_t *temp = new uint8_t[count];
+	for (int i = 0; i < count; i++) {
+		temp[i] = data[i];
+	}
+
+	bool ret = _fins->WriteDM(address, temp, count, true);
+
+	delete []temp;
 	return ret;
 }
 

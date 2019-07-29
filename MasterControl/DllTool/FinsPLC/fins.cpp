@@ -53,6 +53,35 @@ bool Fins::MemoryAreaWrite(MemoryArea area, uint16_t address, uint8_t bit_positi
 	return _finsCmd->MemoryAreaWrite(area, address, bit_position, count, data);
 }
 
+uint32_t Fins::ReadDM(uint16_t address)
+{
+	uint16_t data[2] = { 0 };
+	bool ret = ReadDM(address, data, 2);
+	uint32_t hi = (uint32_t)data[1] << 16;
+	uint32_t lo = (uint32_t)data[0];
+	uint32_t v1 = hi + lo;
+	uint32_t v2 = hi + data[0];
+
+	uint32_t x = v2;
+	//value = ((uint32_t)data[1] << 16) + data[0];
+	//value = (uint32_t)v1;
+
+	return v1;
+}
+
+bool Fins::ReadDM(uint16_t address, uint32_t & value)
+{
+	uint16_t data[2] = { 1, 2 };
+	
+	bool ret = ReadDM(address, data, 2);
+	uint32_t hi = (uint32_t)data[1] << 16;
+	uint32_t lo = (uint32_t)data[0];
+	uint32_t v1 = hi + lo;
+
+	value = v1;
+	return ret;
+}
+
 bool Fins::ReadDM(uint16_t address, uint16_t & value)
 {
 	if (!MemoryAreaRead(DM, address, 0, 1)) return false;

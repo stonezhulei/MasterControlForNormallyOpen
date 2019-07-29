@@ -1,9 +1,0 @@
-int index = this.dataGridView1.Rows.Add();
-
-this.dataGridView1.Rows[index].Cells[0].Value = "1";
-
-this.dataGridView1.Rows[index].Cells[1].Value = "2";
-
-this.dataGridView1.Rows[index].Cells[2].Value = "监听";
-
-利用dataGridView1.Rows.Add()事件为DataGridView控件增加新的行，该函数返回添加新行的索引号，即新行的行号，然后可以通过该索引号操作该行的各个单元格，如dataGridView1.Rows[index].Cells[0].Value = "1"。这是很常用也是很简单的方法。

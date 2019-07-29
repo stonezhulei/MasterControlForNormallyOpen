@@ -7,6 +7,8 @@ namespace UITest
 {
     static class Program
     {
+        private static System.Threading.Mutex mutex;
+
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -15,7 +17,23 @@ namespace UITest
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form3());
+
+            if (Program.IsSingleton("MasterControl/UITest"))
+            {
+                Application.Run(new Form3());
+            }
+            else
+            {
+                MessageBox.Show("软件已经运行", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        // 限制单例运行
+        public static bool IsSingleton(string identifying)
+        {
+            bool isSingleton = false; 
+            mutex = new System.Threading.Mutex(true, identifying, out isSingleton);
+            return isSingleton;
         }
     }
 }

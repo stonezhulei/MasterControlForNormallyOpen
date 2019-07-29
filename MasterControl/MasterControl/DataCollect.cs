@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -22,12 +23,19 @@ namespace MasterControl
         private long[] results = new long[Para.OPNUM];
         private long[] okCount = new long[Para.OPNUM];
 
+        private long[] fileLines = new long[Para.PRESSNUM];
+        StringCollection data = new StringCollection();
+
         public delegate void OnShownTitle(int id, string title);
         public delegate void OnShownStatus(int id, int vsalue);
-        public delegate void OnShownResult(int id, long count, long ok);
-        public OnShownStatus onShownStatus = null;
+        public delegate void OnShownYeild(int id, long count, long ok);
+        public delegate void OnShownResult(StringCollection data);
         public OnShownResult onShownResult = null;
+        public OnShownStatus onShownStatus = null;
+        public OnShownYeild onShownYeild = null;
         public OnShownTitle onShownTitle = null;
+
+        private delegate bool OnRun(int op);
 
         public DataCollect(string path)
         {
@@ -48,8 +56,11 @@ namespace MasterControl
 
         public void Start()
         {
+            // 监听数据汇总
+            ThreadPool.QueueUserWorkItem(o => ListenResult());
+
             // 监听清空统计
-            ThreadPool.QueueUserWorkItem(o => ListenResultClear());
+            ThreadPool.QueueUserWorkItem(o => ListenYeildClear());
 
             // 监听 PLC 状态
             ThreadPool.QueueUserWorkItem(o => ListenStatus());
@@ -58,30 +69,56 @@ namespace MasterControl
             for (int op = 0; op < Para.OPNUM; op++)
             {
                 onShownTitle(op, para.WorklistName[op]);
-                ThreadPool.QueueUserWorkItem(Run, op);
+                ThreadPool.QueueUserWorkItem(ListenYeild, op);
+            }
+
+            // 监听压机数据
+            for (int id = 0; id < para.Presslist.Count; id++)
+            {
+                ThreadPool.QueueUserWorkItem(ListenPressResult, id);
             }
         }
-
-        public void Run(Object o)
+        
+        private void Test(int op, OnRun start, OnRun end, OnRun action, OnRun ack)
         {
-            int op = (int)o;
             bool noRead = true;
             while (!needStop)
             {
-                if (noRead && IsResultReady(op))
+                if (noRead && start(op))
                 {
-                    setResult(op);
-                    SendPLCAck(op);
+                    // 清空
+                    action(op);
+                    ack(op);
                     noRead = false;
                 }
 
-                if (!noRead && IsEndState(op))
+                if (!noRead && !end(op))
                 {
                     noRead = true;
                 }
 
-                Thread.Sleep(500);
+                //Thread.Sleep(500);
             }
+        }
+
+        public void ListenPressResult(Object o)
+        {
+            Test((int)o, IsPressResultReady, IsPressResultReady, setPressResult, SendPLCPressAck);
+        }
+
+        public void ListenYeild(Object o)
+        {
+            Test((int)o, IsYeildReady, IsEndState, setYeild, SendPLCAck);
+        }
+
+        public void ListenYeildClear()
+        {
+            Test(Para.OPTOTAL, IsYeildNeedClear, IsYeildNeedClear, clearYeild, SendPLCAck);
+        }
+
+        public void ListenResult()
+        {
+            Test(Para.OPTOTAL, IsResultReady, IsResultReady, setResult, SendPLCAck1);
         }
 
         public void ListenStatus()
@@ -96,40 +133,19 @@ namespace MasterControl
             }
         }
 
-        public void ListenResultClear()
+        public bool IsResultReady(int op)
         {
-            bool noRead = true;
-            while (!needStop)
-            {
-                if (noRead && IsResultNeedClear(Para.OPTOTAL))
-                {
-                    // 清空
-                    clearResult();
-                    SendPLCAck(Para.OPTOTAL);
-                    noRead = false;
-                }
-
-                if (!noRead && !IsResultNeedClear(Para.OPTOTAL))
-                {
-                    noRead = true;
-                }
-
-                Thread.Sleep(500);
-            }
+            ushort value = ReadDM(para.Worklist[op][Para.PID], para.Worklist[op][Para.ALLDataContorl]);
+            return 9 == value;
         }
 
-        public void SendPLCAck(int op)
-        {
-            WriteDM(para.Worklist[op][Para.PID], para.Worklist[op][Para.STAControl], (ushort)10);
-        }
-
-        public bool IsResultNeedClear(int op)
+        public bool IsYeildNeedClear(int op)
         {
             ushort value = ReadDM(para.Worklist[op][Para.PID], para.Worklist[op][Para.ClearControl]);
             return 9 == value;
         }
 
-        public bool IsResultReady(int op)
+        public bool IsYeildReady(int op)
         {
             ushort value = ReadDM(para.Worklist[op][Para.PID], para.Worklist[op][Para.STAControl]);
             return 9 == value;
@@ -141,7 +157,19 @@ namespace MasterControl
             return 8 == value;
         }
 
-        public void clearResult()
+        public bool SendPLCAck(int op)
+        {
+            WriteDM(para.Worklist[op][Para.PID], para.Worklist[op][Para.STAControl], (ushort)10);
+            return true;
+        }
+
+        public bool SendPLCAck1(int op)
+        {
+            WriteDM(para.Worklist[op][Para.PID], para.Worklist[op][Para.ALLDataContorl], (ushort)10);
+            return true;
+        }
+
+        public bool clearYeild(int optotal)
         {
             for (int op = 0; op < Para.OPNUM; op++)
             {
@@ -149,12 +177,14 @@ namespace MasterControl
                 {
                     results[op] = 0;
                     okCount[op] = 0;
-                    onShownResult(op, results[op], okCount[op]);
+                    onShownYeild(op, results[op], okCount[op]);
                 }
             }
+
+            return true;
         }
 
-        public void setResult(int op)
+        public bool setYeild(int op)
         {
             lock (rLocker[op])
             {
@@ -173,8 +203,10 @@ namespace MasterControl
                     okCount[op] = okNum;
                 }
 
-                onShownResult(op, results[op], okCount[op]);
+                onShownYeild(op, results[op], okCount[op]);
             }
+
+            return true;
         }
 
         public void setStatus(int op)
@@ -188,9 +220,39 @@ namespace MasterControl
             }
         }
 
-        private uint ReadDM1(int pid, ushort address)
+        public bool setResult(int op)
         {
-            uint value = 0;
+            int pid = para.Worklist[op][Para.PID];
+            lock (pLocker[pid])
+            {
+                byte[][] bytes = new byte[3][];
+
+                // OP10 - OP70
+                bytes[0] = new byte[120];
+                fins[pid].ReadDM(para.Worklist[op][Para.TOPCDataStr1], bytes[0]);
+
+                // OP80 - OP110
+                bytes[1] = new byte[120];
+                fins[pid].ReadDM(para.Worklist[op][Para.TOPCDataStr2], bytes[1]);
+
+                // OP120 - OP130
+                bytes[2] = new byte[120];
+                fins[pid].ReadDM(para.Worklist[op][Para.TOPCDataStr3], bytes[2]);
+
+                data.Clear();
+                data.Add(System.Text.Encoding.Default.GetString(bytes[0]));
+                data.Add(System.Text.Encoding.Default.GetString(bytes[1]));
+                data.Add(System.Text.Encoding.Default.GetString(bytes[2]));
+
+                onShownResult(data);
+            }
+
+            return true;
+        }
+
+        private ushort ReadDM(int pid, ushort address)
+        {
+            ushort value = 0;
 
             lock (pLocker[pid])
             {
@@ -200,9 +262,9 @@ namespace MasterControl
             return value;
         }
 
-        private ushort ReadDM(int pid, ushort address)
+        private uint ReadDM1(int pid, ushort address)
         {
-            ushort value = 0;
+            uint value = 0;
 
             lock (pLocker[pid])
             {
@@ -218,6 +280,71 @@ namespace MasterControl
             {
                 fins[pid].WriteDM(address, data);
             }
+        }
+
+        private void WriteDM(int pid, ushort address, byte[] data)
+        {
+            lock (pLocker[pid])
+            {
+                fins[pid].WriteDM(address, data);
+            }
+        }
+
+        public bool IsPressResultReady(int id)
+        {
+            ushort value = ReadDM(para.Presslist[id][Para.PID], para.Presslist[id][Para.STAControl]);
+            return 9 == value;
+        }
+
+        public bool SendPLCPressAck(int id)
+        {
+            WriteDM(para.Presslist[id][Para.PID], para.Presslist[id][Para.STAControl], (ushort)10);
+            return true;
+        }
+
+        public bool setPressResult(int id)
+        {
+            uint pressure = ReadDM1(para.Presslist[id][Para.PID], para.Presslist[id][Para.PRESSURE]);
+            uint position = ReadDM1(para.Presslist[id][Para.PID], para.Presslist[id][Para.POSITION]);
+
+            DateTime dt = DateTime.Now;
+            string fileName = "Y" + (id + 1) + dt.ToString("MMdd");
+            byte[] bytes = System.Text.Encoding.Default.GetBytes(fileName);
+            WriteDM(para.Presslist[id][Para.PID], para.Presslist[id][Para.FILENAME], bytes);
+            WriteResultToFile(id, fileName, dt.ToString(), pressure, position);
+            return true;
+        }
+
+        public void WriteResultToFile(int id, string fileName, string dt, uint pressure, uint position)
+        {
+            long total_lines = 1;
+            StringBuilder lineString = new StringBuilder();
+
+            string dir = @"D:\Press";
+            string path = dir + "\\" + fileName + ".csv";
+	        string bkPath = dir + "\\" + fileName + ".txt";
+
+            if (FileHelper.CheckFileExist(path))
+            {
+                try
+                {
+                    total_lines = FileHelper.CheckFileExist(bkPath) ? FileHelper.ReadLines(bkPath) : FileHelper.ReadLines(path);
+                    fileLines[id] = total_lines;
+                }
+                catch
+                {
+                    total_lines = fileLines[id];
+                }
+            }
+            else
+            {
+                fileLines[id] = total_lines;
+                lineString.Append("NO, DATETIME, PRESS, Position\n");
+            }
+
+            // 文件内容
+            lineString.Append(string.Format("{0}, {1}, {2}, {3}\n", total_lines, dt, pressure, position));
+            FileHelper.SaveFile(lineString.ToString(), path, bkPath);
         }
     }
 }

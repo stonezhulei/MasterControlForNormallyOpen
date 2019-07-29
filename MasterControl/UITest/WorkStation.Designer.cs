@@ -34,8 +34,8 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
             this.btnGeen = new System.Windows.Forms.Button();
-            this.lblYield1 = new System.Windows.Forms.Label();
-            this.lblCapacity1 = new System.Windows.Forms.Label();
+            this.lblYield = new System.Windows.Forms.Label();
+            this.lblCapacity = new System.Windows.Forms.Label();
             this.btnYellow = new System.Windows.Forms.Button();
             this.btnRed = new System.Windows.Forms.Button();
             this.gbxWs.SuspendLayout();
@@ -51,15 +51,13 @@
             this.gbxWs.Controls.Add(this.lblTitle);
             this.gbxWs.Controls.Add(this.lblStatus);
             this.gbxWs.Controls.Add(this.btnGeen);
-            this.gbxWs.Controls.Add(this.lblYield1);
-            this.gbxWs.Controls.Add(this.lblCapacity1);
+            this.gbxWs.Controls.Add(this.lblYield);
+            this.gbxWs.Controls.Add(this.lblCapacity);
             this.gbxWs.Controls.Add(this.btnYellow);
             this.gbxWs.Controls.Add(this.btnRed);
-            this.gbxWs.Location = new System.Drawing.Point(6, -4);
-            this.gbxWs.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.gbxWs.Location = new System.Drawing.Point(5, 8);
             this.gbxWs.Name = "gbxWs";
-            this.gbxWs.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.gbxWs.Size = new System.Drawing.Size(249, 280);
+            this.gbxWs.Size = new System.Drawing.Size(199, 231);
             this.gbxWs.TabIndex = 30;
             this.gbxWs.TabStop = false;
             // 
@@ -71,10 +69,9 @@
             this.tbxCapacity.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbxCapacity.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.tbxCapacity.ForeColor = System.Drawing.Color.Blue;
-            this.tbxCapacity.Location = new System.Drawing.Point(151, 80);
-            this.tbxCapacity.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbxCapacity.Location = new System.Drawing.Point(121, 64);
             this.tbxCapacity.Name = "tbxCapacity";
-            this.tbxCapacity.Size = new System.Drawing.Size(89, 27);
+            this.tbxCapacity.Size = new System.Drawing.Size(71, 22);
             this.tbxCapacity.TabIndex = 35;
             this.tbxCapacity.Text = "8888888";
             this.tbxCapacity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -86,10 +83,9 @@
             this.tbxYield.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbxYield.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.tbxYield.ForeColor = System.Drawing.Color.Blue;
-            this.tbxYield.Location = new System.Drawing.Point(151, 158);
-            this.tbxYield.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbxYield.Location = new System.Drawing.Point(121, 129);
             this.tbxYield.Name = "tbxYield";
-            this.tbxYield.Size = new System.Drawing.Size(89, 27);
+            this.tbxYield.Size = new System.Drawing.Size(71, 22);
             this.tbxYield.TabIndex = 34;
             this.tbxYield.Text = "88.88%";
             this.tbxYield.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -100,10 +96,9 @@
             this.lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblTitle.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lblTitle.ForeColor = System.Drawing.Color.Blue;
-            this.lblTitle.Location = new System.Drawing.Point(4, 22);
-            this.lblTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTitle.Location = new System.Drawing.Point(3, 17);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(241, 36);
+            this.lblTitle.Size = new System.Drawing.Size(193, 29);
             this.lblTitle.TabIndex = 31;
             this.lblTitle.Text = "OP010";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -115,10 +110,9 @@
             this.lblStatus.AutoSize = true;
             this.lblStatus.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lblStatus.ForeColor = System.Drawing.Color.Lime;
-            this.lblStatus.Location = new System.Drawing.Point(92, 228);
-            this.lblStatus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblStatus.Location = new System.Drawing.Point(74, 189);
             this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(72, 27);
+            this.lblStatus.Size = new System.Drawing.Size(58, 22);
             this.lblStatus.TabIndex = 30;
             this.lblStatus.Text = "运行中";
             // 
@@ -129,37 +123,36 @@
             this.btnGeen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGeen.Font = new System.Drawing.Font("宋体", 18F);
             this.btnGeen.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.btnGeen.Location = new System.Drawing.Point(25, 217);
-            this.btnGeen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGeen.Location = new System.Drawing.Point(20, 181);
             this.btnGeen.Name = "btnGeen";
-            this.btnGeen.Size = new System.Drawing.Size(45, 45);
+            this.btnGeen.Size = new System.Drawing.Size(36, 36);
             this.btnGeen.TabIndex = 30;
             this.btnGeen.UseVisualStyleBackColor = false;
             // 
-            // lblYield1
+            // lblYield
             // 
-            this.lblYield1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblYield1.AutoSize = true;
-            this.lblYield1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblYield1.ForeColor = System.Drawing.Color.Black;
-            this.lblYield1.Location = new System.Drawing.Point(92, 158);
-            this.lblYield1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblYield1.Name = "lblYield1";
-            this.lblYield1.Size = new System.Drawing.Size(52, 27);
-            this.lblYield1.TabIndex = 6;
-            this.lblYield1.Text = "良率";
+            this.lblYield.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblYield.AutoSize = true;
+            this.lblYield.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblYield.ForeColor = System.Drawing.Color.Black;
+            this.lblYield.Location = new System.Drawing.Point(74, 129);
+            this.lblYield.Name = "lblYield";
+            this.lblYield.Size = new System.Drawing.Size(42, 22);
+            this.lblYield.TabIndex = 6;
+            this.lblYield.Text = "良率";
             // 
-            // lblCapacity1
+            // lblCapacity
             // 
-            this.lblCapacity1.AutoSize = true;
-            this.lblCapacity1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblCapacity1.ForeColor = System.Drawing.Color.Black;
-            this.lblCapacity1.Location = new System.Drawing.Point(92, 80);
-            this.lblCapacity1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblCapacity1.Name = "lblCapacity1";
-            this.lblCapacity1.Size = new System.Drawing.Size(52, 27);
-            this.lblCapacity1.TabIndex = 4;
-            this.lblCapacity1.Text = "产能";
+            this.lblCapacity.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCapacity.AutoSize = true;
+            this.lblCapacity.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblCapacity.ForeColor = System.Drawing.Color.Black;
+            this.lblCapacity.Location = new System.Drawing.Point(74, 64);
+            this.lblCapacity.Name = "lblCapacity";
+            this.lblCapacity.Size = new System.Drawing.Size(42, 22);
+            this.lblCapacity.TabIndex = 4;
+            this.lblCapacity.Text = "产能";
             // 
             // btnYellow
             // 
@@ -168,10 +161,9 @@
             this.btnYellow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnYellow.Font = new System.Drawing.Font("宋体", 18F);
             this.btnYellow.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.btnYellow.Location = new System.Drawing.Point(25, 145);
-            this.btnYellow.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnYellow.Location = new System.Drawing.Point(20, 119);
             this.btnYellow.Name = "btnYellow";
-            this.btnYellow.Size = new System.Drawing.Size(45, 45);
+            this.btnYellow.Size = new System.Drawing.Size(36, 36);
             this.btnYellow.TabIndex = 3;
             this.btnYellow.UseVisualStyleBackColor = false;
             // 
@@ -182,18 +174,17 @@
             this.btnRed.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRed.Font = new System.Drawing.Font("宋体", 18F);
             this.btnRed.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.btnRed.Location = new System.Drawing.Point(25, 74);
-            this.btnRed.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnRed.Location = new System.Drawing.Point(20, 59);
             this.btnRed.Name = "btnRed";
-            this.btnRed.Size = new System.Drawing.Size(45, 45);
+            this.btnRed.Size = new System.Drawing.Size(36, 36);
             this.btnRed.TabIndex = 2;
             this.btnRed.UseVisualStyleBackColor = false;
             // 
             // WorkStation
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(261, 280);
+            this.ClientSize = new System.Drawing.Size(209, 250);
             this.Controls.Add(this.gbxWs);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -209,11 +200,11 @@
 
         private System.Windows.Forms.GroupBox gbxWs;
         private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Label lblCapacity1;
+        private System.Windows.Forms.Label lblCapacity;
         private System.Windows.Forms.Button btnRed;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.Button btnGeen;
-        private System.Windows.Forms.Label lblYield1;
+        private System.Windows.Forms.Label lblYield;
         private System.Windows.Forms.Button btnYellow;
         private System.Windows.Forms.TextBox tbxCapacity;
         private System.Windows.Forms.TextBox tbxYield;

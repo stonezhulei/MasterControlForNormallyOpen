@@ -102,11 +102,11 @@ bool Fins::ReadDM(uint16_t address, int16_t & value)
 
 bool Fins::ReadDM(uint16_t address, uint8_t data[], uint16_t count)
 {
-	if (!MemoryAreaRead(DM, address, 0, 1)) return false;
+	if (!MemoryAreaRead(DM, address, 0, count)) return false;
 
-	for (int x = 0; x < count; ++x)
-	{
-		data[x] = (uint8_t)_finsCmd->Response[x];
+	for (int i = 0; i < count - 1; i += 2) {
+		data[i] = (uint8_t)_finsCmd->Response[i + 1];
+		data[i + 1] = (uint8_t)_finsCmd->Response[i];
 	}
 
 	return true;
@@ -114,7 +114,7 @@ bool Fins::ReadDM(uint16_t address, uint8_t data[], uint16_t count)
 
 bool Fins::ReadDM(uint16_t address, uint16_t data[], uint16_t count)
 {
-	if (!MemoryAreaRead(DM, address, 0, 1)) return false;
+	if (!MemoryAreaRead(DM, address, 0, count)) return false;
 
 	for (int x = 0; x < count; ++x)
 	{
@@ -136,12 +136,12 @@ bool Fins::WriteDM(uint16_t address, const uint16_t value)
 //uint8_t data[] = "D31231";
 //uint8_t data[] = "3D2113"; // ·´¹ıÀ´
 //fins->WriteDM((uint16_t)170, data, 6);
-bool Fins::WriteDM(uint16_t address, uint8_t data[], uint16_t count, bool reserve)
+bool Fins::WriteDM(uint16_t address, uint8_t data[], uint16_t count)
 {
 	uint8_t *byteData = new uint8_t[count];
 	memcpy(byteData, data, count);
 
-	for (int i = 0; reserve && i < count - 1; i += 2) {
+	for (int i = 0; i < count - 1; i += 2) {
 		uint8_t byte = byteData[i];
 		byteData[i] = byteData[i + 1];
 		byteData[i + 1] = byte;

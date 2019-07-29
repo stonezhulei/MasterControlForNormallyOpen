@@ -37,6 +37,8 @@ namespace UITest
                 return;
             }
 
+            if (data.Count < Para.UISHOWNUM) return;
+
             try
             {
                 this.dgvResults.Rows.Clear();

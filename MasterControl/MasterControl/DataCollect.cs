@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using OmronPlc;
 using System.IO;
+using System.Diagnostics;
 
 namespace MasterControl
 {
@@ -21,7 +22,7 @@ namespace MasterControl
         public static readonly object[] pLocker = new object[Para.PLCNUM];
 
         private ushort[] status = new ushort[Para.OPNUM];
-        private long[] results = new long[Para.OPNUM];
+        private long[] alCount = new long[Para.OPNUM];
         private long[] okCount = new long[Para.OPNUM];
 
         private byte[][] bytes = new byte[Para.PLCBUFNUM][];
@@ -60,10 +61,18 @@ namespace MasterControl
             }
 
             // 加载历史数据
+            para.LoadYeildData(alCount, okCount);
         }
 
         public void Start()
         {
+            // 刷新历史数据
+            onShownResult(para.LoadResultData());
+            for (int op = 0; op < Para.OPNUM; op++)
+            {
+                onShownYeild(op, alCount[op], okCount[op]);
+            }
+
             // 监听数据汇总
             ThreadPool.QueueUserWorkItem(o => ListenResult());
 
@@ -185,9 +194,10 @@ namespace MasterControl
             {
                 lock (rLocker[op])
                 {
-                    results[op] = 0;
+                    alCount[op] = 0;
                     okCount[op] = 0;
-                    onShownYeild(op, results[op], okCount[op]);
+                    onShownYeild(op, alCount[op], okCount[op]);
+                    para.SaveYeildData(alCount, okCount);
                 }
             }
 
@@ -200,7 +210,7 @@ namespace MasterControl
             {
                 if (op != Para.OPTOTAL)
                 {
-                    results[op]++;
+                    alCount[op]++;
                     ushort value = ReadDM(para.Worklist[op][Para.PID], para.Worklist[op][Para.STA]);
                     okCount[op] = ('9' == value) ? okCount[op] + 1 : okCount[op];
                 }
@@ -209,11 +219,12 @@ namespace MasterControl
                     long okNum = ReadDM1(para.Worklist[op][Para.PID], para.Worklist[op][Para.OKNUM]);
                     long ngNum = ReadDM1(para.Worklist[op][Para.PID], para.Worklist[op][Para.NGNUM]);
                     long totalNum = ReadDM1(para.Worklist[op][Para.PID], para.Worklist[op][Para.TOTALNUM]);
-                    results[op] = totalNum;
+                    alCount[op] = totalNum;
                     okCount[op] = okNum;
                 }
 
-                onShownYeild(op, results[op], okCount[op]);
+                onShownYeild(op, alCount[op], okCount[op]);
+                para.SaveYeildData(alCount, okCount);
             }
 
             return true;
@@ -256,6 +267,7 @@ namespace MasterControl
             onParse(data);
             onSendWeb(data);
             onShownResult(data);
+            para.SaveResultData(data);
 
             return true;
         }
@@ -345,6 +357,8 @@ namespace MasterControl
             data.Add(ParseFloat(td3[7], 100, "bar"));
             data.Add(ParseFloat(td3[8], 100, "bar"));
             data.Add(td3[9]);
+
+            Debug.Assert(data.Count == Para.UISHOWNUM, string.Format("总站数据长度 > {0}, 请修改否则 UI 无法显示", Para.UISHOWNUM));
         }
 
         public string ParseFloat(string data, int n, string u)

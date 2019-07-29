@@ -12,6 +12,8 @@ namespace MasterControl
         public const int PLCADDRSIZE = 4;
         public const int OPNUM = 19;
         public const int OPTOTAL = 18;
+        public const int PLCBUFNUM = 3;
+        public const int PLCBUFLEN = 120;
 
         public const int PID = 0;
         public const int STAControl = 1;

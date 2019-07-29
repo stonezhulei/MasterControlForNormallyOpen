@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using OmronPlc;
+using System.IO;
 
 namespace MasterControl
 {
@@ -23,8 +24,8 @@ namespace MasterControl
         private long[] results = new long[Para.OPNUM];
         private long[] okCount = new long[Para.OPNUM];
 
+        private byte[][] bytes = new byte[Para.PLCBUFNUM][];
         private long[] fileLines = new long[Para.PRESSNUM];
-        StringCollection data = new StringCollection();
 
         public delegate void OnShownTitle(int id, string title);
         public delegate void OnShownStatus(int id, int vsalue);
@@ -52,6 +53,13 @@ namespace MasterControl
                 aLocker[i] = new object();
                 rLocker[i] = new object();
             }
+
+            for (int i = 0; i < Para.PLCBUFNUM; i++)
+            {
+                bytes[i] = new byte[Para.PLCBUFLEN];
+            }
+
+            // 加载历史数据
         }
 
         public void Start()
@@ -97,7 +105,7 @@ namespace MasterControl
                     noRead = true;
                 }
 
-                //Thread.Sleep(500);
+                //Thread.Sleep(10);
             }
         }
 
@@ -129,7 +137,9 @@ namespace MasterControl
                 {
                     setStatus(op);
                 }
+
                 //Parallel.For(0, Para.OPNUM, op => setAlarm(op));
+                //Thread.Sleep(10);
             }
         }
 
@@ -225,29 +235,128 @@ namespace MasterControl
             int pid = para.Worklist[op][Para.PID];
             lock (pLocker[pid])
             {
-                byte[][] bytes = new byte[3][];
-
                 // OP10 - OP70
-                bytes[0] = new byte[120];
+                Array.Clear(bytes[0], 0, 120);
                 fins[pid].ReadDM(para.Worklist[op][Para.TOPCDataStr1], bytes[0]);
 
                 // OP80 - OP110
-                bytes[1] = new byte[120];
+                Array.Clear(bytes[1], 0, 120);
                 fins[pid].ReadDM(para.Worklist[op][Para.TOPCDataStr2], bytes[1]);
 
                 // OP120 - OP130
-                bytes[2] = new byte[120];
+                Array.Clear(bytes[2], 0, 120);
                 fins[pid].ReadDM(para.Worklist[op][Para.TOPCDataStr3], bytes[2]);
-
-                data.Clear();
-                data.Add(System.Text.Encoding.Default.GetString(bytes[0]));
-                data.Add(System.Text.Encoding.Default.GetString(bytes[1]));
-                data.Add(System.Text.Encoding.Default.GetString(bytes[2]));
-
-                onShownResult(data);
             }
 
+            StringCollection data = new StringCollection();
+            data.Add(System.Text.Encoding.Default.GetString(bytes[0]));
+            data.Add(System.Text.Encoding.Default.GetString(bytes[1]));
+            data.Add(System.Text.Encoding.Default.GetString(bytes[2]));
+
+            onParse(data);
+            onSendWeb(data);
+            onShownResult(data);
+
             return true;
+        }
+
+        public void onSendWeb(StringCollection data)
+        {
+            //data.Add("111");
+            //data.Add("2");
+            //data.Add("33");
+            string s = string.Join(",", data.OfType<string>());
+            Console.WriteLine(s); // 111,2,33
+        }
+
+        public void onParse(StringCollection data)
+        {
+            string[] td1 = data[0].Split(',');
+            string[] td2 = data[1].Split(',');
+            string[] td3 = data[2].Split(',');
+
+            if (td1.Length < 16 || td2.Length < 17 || td3.Length < 10)
+            {
+                return;
+            }
+
+            data.Clear();
+
+            // OP10
+            data.Add(td1[2]);
+            data.Add(td1[3]);
+            data.Add(td1[4]);
+
+            // OP20
+            data.Add(ParseFloat(td1[5], 1000, "mm"));
+
+            // OP30      
+            data.Add(ParseFloat(td1[7], 1000, "KN"));
+            data.Add(ParseFloat(td1[8], 1000, "mm"));
+            data.Add(td1[6]); // == 调换
+
+            // OP50
+            data.Add(ParseFloat(td1[9], 1000, "mm"));
+
+            // OP60
+            data.Add(ParseFloat(td1[10], 1000, "mm"));
+            data.Add(ParseFloat(td1[11], 1000, "mm"));
+
+            // OP70
+            data.Add(ParseFloat(td1[12], 1000, "mm"));
+            data.Add(ParseFloat(td1[14], 1000, "KN"));
+            data.Add(ParseFloat(td1[15], 1000, "mm"));
+            data.Add(td1[13]);// == 调换
+
+            // OP80
+            data.Add(td2[16]);
+
+            // OP90
+            data.Add(ParseFloat(td2[5], 1000, "mm"));
+
+            // OP100
+            data.Add(td2[2]);
+            data.Add(td2[3].Substring(1));
+            data.Add(td2[4]);
+
+            // OP110-1
+            data.Add(td2[6]);
+            data.Add(td2[7].Substring(1));
+            data.Add(td2[8]);
+
+            // OP110-2
+            data.Add(td2[9]);
+            data.Add(td2[10].Substring(1));
+            data.Add(td2[11]);
+
+            // OP110-3
+            data.Add(ParseFloat(td2[12], 1000, "KN"));
+            data.Add(ParseFloat(td2[13], 100, "mm"));
+            data.Add(td2[14]);
+
+            // OP120
+            data.Add(ParseFloat(td3[2], 1000, "bar"));
+            data.Add(ParseFloat(td3[3], 1000, "ml/min"));
+            data.Add(ParseFloat(td3[4], 1000, "Mpa"));
+            data.Add(td3[5]);
+
+            // OP130
+            data.Add(ParseFloat(td3[6], 10, "pa"));
+            data.Add(ParseFloat(td3[7], 100, "bar"));
+            data.Add(ParseFloat(td3[8], 100, "bar"));
+            data.Add(td3[9]);
+        }
+
+        public string ParseFloat(string data, int n, string u)
+        {
+            float fdata;
+            string result = "";
+            if (float.TryParse(data, out fdata))
+            {
+                result = fdata / n + " " + u;
+            }
+
+            return result;
         }
 
         private ushort ReadDM(int pid, ushort address)

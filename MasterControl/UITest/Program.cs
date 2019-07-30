@@ -24,7 +24,7 @@ namespace UITest
             }
             else
             {
-                MessageBox.Show("软件已经运行", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("软件已运行", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 

@@ -15,6 +15,7 @@ namespace MasterControl
     {
         private Para para;
         private bool needStop;
+        Client m_client;
 
         private FinsProxy[] fins = new FinsProxy[Para.PLCNUM];
         public static readonly object[] aLocker = new object[Para.OPNUM];
@@ -59,6 +60,14 @@ namespace MasterControl
             {
                 bytes[i] = new byte[Para.PLCBUFLEN];
             }
+
+            m_client = new Client("192.168.51.220", 1000);    //连接
+            m_client.Connect();
+
+            StringCollection data = new StringCollection();
+
+            string s = string.Join(",", data.OfType<string>());
+            m_client.SendMsg("123456");
 
             // 加载历史数据
             para.LoadYeildData(alCount, okCount);
@@ -278,7 +287,8 @@ namespace MasterControl
             //data.Add("2");
             //data.Add("33");
             string s = string.Join(",", data.OfType<string>());
-            Console.WriteLine(s); // 111,2,33
+            m_client.SendMsg(s);
+            
         }
 
         public void onParse(StringCollection data)

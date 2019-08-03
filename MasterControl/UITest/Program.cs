@@ -15,6 +15,7 @@ namespace UITest
         [STAThread]
         static void Main()
         {
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler((obj, args) => MiniDump.TryDump("D:\\error.dmp"));
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

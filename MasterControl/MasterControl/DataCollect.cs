@@ -294,18 +294,17 @@ namespace MasterControl
 
             data.Clear();
 
-            // OP10
+            // OP20
             data.Add(td1[2]);
             data.Add(td1[3]);
             data.Add(td1[4]);
-
-            // OP20
-            data.Add(ParseFloat(td1[5], 1000, "mm"));
+            data.Add(td1[4]);
 
             // OP30      
             data.Add(ParseFloat(td1[7], 1000, "KN"));
             data.Add(ParseFloat(td1[8], 1000, "mm"));
-            data.Add(td1[6]); // == 调换
+            //data.Add();
+            data.Add(td1[6]);
 
             // OP50
             data.Add(ParseFloat(td1[9], 1000, "mm"));

@@ -15,6 +15,9 @@ namespace UITest
         [STAThread]
         static void Main()
         {
+            string fname = @"log\" + DateTime.Now.ToString("yyyyMMddhhmmss") + ".dmp";
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler((obj, e) => MiniDumper.TryDump(fname));
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

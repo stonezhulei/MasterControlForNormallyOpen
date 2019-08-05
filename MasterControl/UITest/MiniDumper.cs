@@ -6,9 +6,8 @@ using System.Windows.Forms;
 
 namespace UITest
 {
-    public static class MiniDump
+    public static class MiniDumper
     {
-        // Taken almost verbatim from http://blog.kalmbach-software.de/2008/12/13/writing-minidumps-in-c/
         [Flags]
         public enum Option : uint
         {

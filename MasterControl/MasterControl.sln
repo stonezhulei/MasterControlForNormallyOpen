@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITest", "UITest\UITest.csp
 		{54D35D91-6363-41A4-9823-6B7F7E4F2CD4} = {54D35D91-6363-41A4-9823-6B7F7E4F2CD4}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelNPOI", "ExcelNPOI\ExcelNPOI.csproj", "{CAE9CF19-1A02-4659-A066-046C5C74EB11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileTool", "FileTool\FileTool.csproj", "{F126C55F-E3FB-4FB0-8231-FEFF8F53BE9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -53,6 +57,26 @@ Global
 		{15FDAC74-09C8-4DEF-9CD8-7AD764AB2EDC}.Release|Win32.ActiveCfg = Release|x86
 		{15FDAC74-09C8-4DEF-9CD8-7AD764AB2EDC}.Release|x86.ActiveCfg = Release|x86
 		{15FDAC74-09C8-4DEF-9CD8-7AD764AB2EDC}.Release|x86.Build.0 = Release|x86
+		{CAE9CF19-1A02-4659-A066-046C5C74EB11}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{CAE9CF19-1A02-4659-A066-046C5C74EB11}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{CAE9CF19-1A02-4659-A066-046C5C74EB11}.Debug|Win32.ActiveCfg = Debug|x86
+		{CAE9CF19-1A02-4659-A066-046C5C74EB11}.Debug|x86.ActiveCfg = Debug|x86
+		{CAE9CF19-1A02-4659-A066-046C5C74EB11}.Debug|x86.Build.0 = Debug|x86
+		{CAE9CF19-1A02-4659-A066-046C5C74EB11}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{CAE9CF19-1A02-4659-A066-046C5C74EB11}.Release|Mixed Platforms.Build.0 = Release|x86
+		{CAE9CF19-1A02-4659-A066-046C5C74EB11}.Release|Win32.ActiveCfg = Release|x86
+		{CAE9CF19-1A02-4659-A066-046C5C74EB11}.Release|x86.ActiveCfg = Release|x86
+		{CAE9CF19-1A02-4659-A066-046C5C74EB11}.Release|x86.Build.0 = Release|x86
+		{F126C55F-E3FB-4FB0-8231-FEFF8F53BE9B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{F126C55F-E3FB-4FB0-8231-FEFF8F53BE9B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{F126C55F-E3FB-4FB0-8231-FEFF8F53BE9B}.Debug|Win32.ActiveCfg = Debug|x86
+		{F126C55F-E3FB-4FB0-8231-FEFF8F53BE9B}.Debug|x86.ActiveCfg = Debug|x86
+		{F126C55F-E3FB-4FB0-8231-FEFF8F53BE9B}.Debug|x86.Build.0 = Debug|x86
+		{F126C55F-E3FB-4FB0-8231-FEFF8F53BE9B}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{F126C55F-E3FB-4FB0-8231-FEFF8F53BE9B}.Release|Mixed Platforms.Build.0 = Release|x86
+		{F126C55F-E3FB-4FB0-8231-FEFF8F53BE9B}.Release|Win32.ActiveCfg = Release|x86
+		{F126C55F-E3FB-4FB0-8231-FEFF8F53BE9B}.Release|x86.ActiveCfg = Release|x86
+		{F126C55F-E3FB-4FB0-8231-FEFF8F53BE9B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

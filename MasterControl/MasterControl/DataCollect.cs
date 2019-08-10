@@ -5,9 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using OmronPlc;
 using System.IO;
 using System.Diagnostics;
+using OmronPlc;
+using ExcelNPOI;
+using FileTool;
 
 namespace MasterControl
 {
@@ -39,8 +41,13 @@ namespace MasterControl
 
         private delegate bool OnRun(int op);
 
+        private ExcelHelper excelHelper;
+
         public DataCollect(string path)
         {
+            string fileName = DateTime.Now.ToString("yyMMdd") + ".xls";
+            excelHelper = new ExcelHelper(path + "\\template.xls", path + "\\1.xls");
+
             para = new Para(path);
             for (int i = 0; i < Para.PLCNUM; i++)
             {
@@ -450,7 +457,7 @@ namespace MasterControl
             {
                 try
                 {
-                    total_lines = FileHelper.CheckFileExist(bkPath) ? FileHelper.ReadLines(bkPath) : FileHelper.ReadLines(path);
+                    total_lines = FileHelper.CheckFileExist(bkPath) ? FileHelper.GetTotalLines(bkPath) : FileHelper.GetTotalLines(path);
                     fileLines[id] = total_lines;
                 }
                 catch
@@ -466,7 +473,42 @@ namespace MasterControl
 
             // 文件内容
             lineString.Append(string.Format("{0}, {1}, {2}, {3}\n", total_lines, dt, pressure, position));
-            FileHelper.SaveFile(lineString.ToString(), path, bkPath);
+            FileHelper.Write(lineString.ToString(), path, bkPath);
+        }
+
+        public void WriteResultToFile2(int id, string fileName, string dt, uint pressure, uint position)
+        {
+            long total_lines = 1;
+            StringBuilder lineString = new StringBuilder();
+
+            string dir = @"D:\Press";
+            string path = dir + "\\" + fileName + ".csv";
+            string bkPath = dir + "\\" + fileName + ".txt";
+
+            bool needAppendHeader = !FileHelper.CheckFileExist(path);
+            StreamWriter sw = FileHelper.OpenWriterStream(path, true);
+
+            if (needAppendHeader)
+            {
+                fileLines[id] = total_lines;
+                lineString.Append("NO, DATETIME, PRESS, Position\n");
+            }
+            else
+            {
+                try
+                {
+                    total_lines = FileHelper.CheckFileExist(bkPath) ? FileHelper.GetTotalLines(bkPath) : FileHelper.GetTotalLines(path);
+                    fileLines[id] = total_lines;
+                }
+                catch
+                {
+                    total_lines = fileLines[id];
+                }
+            }
+
+            // 文件内容
+            lineString.Append(string.Format("{0}, {1}, {2}, {3}\n", total_lines, dt, pressure, position));
+            FileHelper.Write(lineString.ToString(), path, bkPath);
         }
     }
 }

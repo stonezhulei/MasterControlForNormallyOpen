@@ -4,6 +4,6 @@ if not exist "log" (
 )
 
 echo 数据收集中...
-UITest.exe >> log\1.TXT
-% UITest.exe > 1.TXT %
-% start UITest.exe >> 1.TXT %
+MasterControl >> log\1.TXT
+% MasterControl > 1.TXT %
+% start MasterControl >> 1.TXT %

@@ -5,9 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using OmronPlc;
 using System.IO;
 using System.Diagnostics;
+using OmronPlc;
+using ExcelTool;
+using FileTool;
 
 namespace MasterControl
 {
@@ -39,8 +41,12 @@ namespace MasterControl
 
         private delegate bool OnRun(int op);
 
+        private ExcelHelper excelHelper;
+
         public DataCollect(string path)
         {
+            string fileName = DateTime.Now.ToString("yyMMdd") + ".xls";
+
             para = new Para(path);
             for (int i = 0; i < Para.PLCNUM; i++)
             {
@@ -95,7 +101,7 @@ namespace MasterControl
                 ThreadPool.QueueUserWorkItem(ListenPressResult, id);
             }
         }
-        
+
         private void Test(int op, OnRun start, OnRun end, OnRun action, OnRun ack)
         {
             bool noRead = true;
@@ -444,13 +450,13 @@ namespace MasterControl
 
             string dir = @"D:\Press";
             string path = dir + "\\" + fileName + ".csv";
-	        string bkPath = dir + "\\" + fileName + ".txt";
+            string bkPath = dir + "\\" + fileName + ".txt";
 
             if (FileHelper.CheckFileExist(path))
             {
                 try
                 {
-                    total_lines = FileHelper.CheckFileExist(bkPath) ? FileHelper.ReadLines(bkPath) : FileHelper.ReadLines(path);
+                    total_lines = FileHelper.CheckFileExist(bkPath) ? FileHelper.GetTotalLines(bkPath) : FileHelper.GetTotalLines(path);
                     fileLines[id] = total_lines;
                 }
                 catch
@@ -466,7 +472,8 @@ namespace MasterControl
 
             // 文件内容
             lineString.Append(string.Format("{0}, {1}, {2}, {3}\n", total_lines, dt, pressure, position));
-            FileHelper.SaveFile(lineString.ToString(), path, bkPath);
+            FileHelper.Write(lineString.ToString(), path, bkPath);
         }
+
     }
 }

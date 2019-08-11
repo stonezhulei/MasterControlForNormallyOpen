@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4ABFEFC5-19F6-409C-8440-D3858B2AC756}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{A8DC40FA-203C-4EA7-B77E-BF0948495898}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MasterControl</RootNamespace>
-    <AssemblyName>MasterControlDll</AssemblyName>
+    <RootNamespace>ExcelTool</RootNamespace>
+    <AssemblyName>ExcelTool</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -23,7 +23,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -34,20 +33,23 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Monitor.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DllTool, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>npoi-2.4.1\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\DllTool.dll</HintPath>
+      <HintPath>npoi-2.4.1\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>npoi-2.4.1\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>npoi-2.4.1\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>npoi-2.4.1\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -60,19 +62,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Para.cs" />
-    <Compile Include="DataCollect.cs" />
-    <Compile Include="MasterUi.cs">
+    <Compile Include="ExcelHelper.cs" />
+    <Compile Include="ExcelUi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MasterUi.Designer.cs">
-      <DependentUpon>MasterUi.cs</DependentUpon>
+    <Compile Include="ExcelUi.Designer.cs">
+      <DependentUpon>ExcelUi.cs</DependentUpon>
     </Compile>
-    <Compile Include="IniFiles.cs" />
+    <Compile Include="OperationExcel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="MasterUi.resx">
-      <DependentUpon>MasterUi.cs</DependentUpon>
+    <EmbeddedResource Include="ExcelUi.resx">
+      <DependentUpon>ExcelUi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -93,19 +94,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Monitor.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ExcelTool\ExcelTool.csproj">
-      <Project>{A8DC40FA-203C-4EA7-B77E-BF0948495898}</Project>
-      <Name>ExcelTool</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FileTool\FileTool.csproj">
-      <Project>{F126C55F-E3FB-4FB0-8231-FEFF8F53BE9B}</Project>
-      <Name>FileTool</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

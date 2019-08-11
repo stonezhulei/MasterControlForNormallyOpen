@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace MasterControl
+namespace ExcelTool
 {
     static class Program
     {
@@ -15,7 +15,7 @@ namespace MasterControl
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MasterUi());
+            Application.Run(new ExcelUi());
         }
     }
 }

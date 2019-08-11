@@ -1,6 +1,6 @@
 ﻿namespace MasterControl
 {
-    partial class Form1
+    partial class MasterUi
     {
         /// <summary>
         /// 必需的设计器变量。

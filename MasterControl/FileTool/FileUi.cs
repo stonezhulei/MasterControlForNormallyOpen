@@ -11,11 +11,11 @@ using System.Collections.Specialized;
 
 namespace FileTool
 {
-    public partial class Form1 : Form
+    public partial class FileUi : Form
     {
-        public FileHelper fh = new FileHelper(@"d:\1.csv", true);
+        private FileHelper fh = new FileHelper();
 
-        public Form1()
+        public FileUi()
         {
             InitializeComponent();
         }

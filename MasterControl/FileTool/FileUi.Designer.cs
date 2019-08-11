@@ -1,6 +1,6 @@
 ﻿namespace FileTool
 {
-    partial class Form1
+    partial class FileUi
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -33,7 +33,7 @@
             // 
             // btnWrite
             // 
-            this.btnWrite.Location = new System.Drawing.Point(51, 48);
+            this.btnWrite.Location = new System.Drawing.Point(102, 92);
             this.btnWrite.Name = "btnWrite";
             this.btnWrite.Size = new System.Drawing.Size(75, 23);
             this.btnWrite.TabIndex = 0;
@@ -41,14 +41,14 @@
             this.btnWrite.UseVisualStyleBackColor = true;
             this.btnWrite.Click += new System.EventHandler(this.btnWrite_Click);
             // 
-            // Form1
+            // FileUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(282, 255);
             this.Controls.Add(this.btnWrite);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "FileUI";
+            this.Text = "FileTest";
             this.ResumeLayout(false);
 
         }

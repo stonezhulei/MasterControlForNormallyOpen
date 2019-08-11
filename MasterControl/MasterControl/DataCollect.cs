@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
 using OmronPlc;
-using ExcelNPOI;
+using ExcelTool;
 using FileTool;
 
 namespace MasterControl
@@ -102,7 +102,7 @@ namespace MasterControl
                 ThreadPool.QueueUserWorkItem(ListenPressResult, id);
             }
         }
-        
+
         private void Test(int op, OnRun start, OnRun end, OnRun action, OnRun ack)
         {
             bool noRead = true;
@@ -451,7 +451,7 @@ namespace MasterControl
 
             string dir = @"D:\Press";
             string path = dir + "\\" + fileName + ".csv";
-	        string bkPath = dir + "\\" + fileName + ".txt";
+            string bkPath = dir + "\\" + fileName + ".txt";
 
             if (FileHelper.CheckFileExist(path))
             {
@@ -476,39 +476,5 @@ namespace MasterControl
             FileHelper.Write(lineString.ToString(), path, bkPath);
         }
 
-        public void WriteResultToFile2(int id, string fileName, string dt, uint pressure, uint position)
-        {
-            long total_lines = 1;
-            StringBuilder lineString = new StringBuilder();
-
-            string dir = @"D:\Press";
-            string path = dir + "\\" + fileName + ".csv";
-            string bkPath = dir + "\\" + fileName + ".txt";
-
-            bool needAppendHeader = !FileHelper.CheckFileExist(path);
-            StreamWriter sw = FileHelper.OpenWriterStream(path, true);
-
-            if (needAppendHeader)
-            {
-                fileLines[id] = total_lines;
-                lineString.Append("NO, DATETIME, PRESS, Position\n");
-            }
-            else
-            {
-                try
-                {
-                    total_lines = FileHelper.CheckFileExist(bkPath) ? FileHelper.GetTotalLines(bkPath) : FileHelper.GetTotalLines(path);
-                    fileLines[id] = total_lines;
-                }
-                catch
-                {
-                    total_lines = fileLines[id];
-                }
-            }
-
-            // 文件内容
-            lineString.Append(string.Format("{0}, {1}, {2}, {3}\n", total_lines, dt, pressure, position));
-            FileHelper.Write(lineString.ToString(), path, bkPath);
-        }
     }
 }

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F126C55F-E3FB-4FB0-8231-FEFF8F53BE9B}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{A8DC40FA-203C-4EA7-B77E-BF0948495898}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FileTool</RootNamespace>
-    <AssemblyName>FileTool</AssemblyName>
+    <RootNamespace>ExcelTool</RootNamespace>
+    <AssemblyName>ExcelTool</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -33,10 +33,19 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>npoi-2.4.1\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>npoi-2.4.1\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>npoi-2.4.1\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>npoi-2.4.1\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,17 +57,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileHelper.cs" />
-    <Compile Include="FileUi.cs">
+    <Compile Include="ExcelHelper.cs" />
+    <Compile Include="ExcelUi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FileUi.Designer.cs">
-      <DependentUpon>FileUi.cs</DependentUpon>
+    <Compile Include="ExcelUi.Designer.cs">
+      <DependentUpon>ExcelUi.cs</DependentUpon>
     </Compile>
+    <Compile Include="OperationExcel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FileUi.resx">
-      <DependentUpon>FileUi.cs</DependentUpon>
+    <EmbeddedResource Include="ExcelUi.resx">
+      <DependentUpon>ExcelUi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

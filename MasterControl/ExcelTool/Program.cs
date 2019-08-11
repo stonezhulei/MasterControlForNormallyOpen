@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace FileTool
+namespace ExcelTool
 {
     static class Program
     {
@@ -15,7 +15,7 @@ namespace FileTool
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FileUi());
+            Application.Run(new ExcelUi());
         }
     }
 }

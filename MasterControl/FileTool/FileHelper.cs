@@ -10,18 +10,18 @@ namespace FileTool
 {
     public class FileHelper
     { 
-        private StreamWriter sw; // CSV 流
-        private string path; // CSV 路径
-        private bool append; // CSV 追加方式
-        private long lines;  // CSV 文件行数
+        private StreamWriter _sw; // CSV 流
+        private string _path; // CSV 路径
+        private bool _append; // CSV 追加方式
+        private long _lines;  // CSV 文件行数
 
-        /// <summary>
-        /// 以独占方式打开 CSV
-        /// </summary>
-        public FileHelper(string path, bool append)
-        {
-            this.OpenCSV(path, append);
-        }
+        ///// <summary>
+        ///// 以独占方式打开 CSV
+        ///// </summary>
+        //public FileHelper(string path, bool append)
+        //{
+        //    this.OpenCSV(path, append);
+        //}
 
         private static object locker = new object();
 
@@ -272,12 +272,12 @@ namespace FileTool
         /// </summary>
         public bool WriteCSV(string header, string lineString)
         {
-            long id = lines;
+            long id = _lines;
             bool success = true;
 
             if (id == 0)
             {
-                success = Write(sw, header, true);
+                success = Write(_sw, header, true);
                 id = success ? id + 1 : id;
             }
 
@@ -290,8 +290,8 @@ namespace FileTool
                 sb.Append((id + i) + ", " + newlines[i] + "\r\n");
             }
 
-            success = success && Write(sw, sb.ToString(), false);
-            lines = success ? id + newlines.Length + 1 : id;
+            success = success && Write(_sw, sb.ToString(), false);
+            _lines = success ? id + newlines.Length + 1 : id;
             return success;
         }
 
@@ -317,7 +317,7 @@ namespace FileTool
         /// </summary>
         public bool WriteCSV(string path, string header, string lineString, bool append)
         {
-            this.ExOpenCSV(path, append);
+            this.ReOpenCSV(path, append);
             return WriteCSV(header, lineString);
         }
 
@@ -341,13 +341,13 @@ namespace FileTool
         /// <summary>
         /// 切换 CSV
         /// </summary>
-        public void ExOpenCSV(string path, bool append)
+        public void ReOpenCSV(string path, bool append)
         {
-            if (path != this.path || append != this.append)
+            if (_sw == null || path != this._path || append != this._append)
             {
                 lock (locker)
                 {
-                    if (path != this.path || append != this.append)
+                    if (_sw == null || path != this._path || append != this._append)
                     {
                         this.CloseCSV();
                         this.OpenCSV(path, append);
@@ -364,20 +364,20 @@ namespace FileTool
             StreamReader sr;
             if ((sr = OpenReaderStream(path)) != null)
             {
-                lines = GetTotalLines(sr);
+                _lines = GetTotalLines(sr);
                 CloseReaderStream(sr);
             }
             else
             {
-                lines = 0;
+                _lines = 0;
             }
 
-            sw = OpenWriterStream(path, append);
+            _sw = OpenWriterStream(path, append);
 
-            if (sw != null)
+            if (_sw != null)
             {
-                this.path = path;
-                this.append = append;
+                this._path = path;
+                this._append = append;
             }
             else
             {
@@ -390,7 +390,8 @@ namespace FileTool
         /// </summary>
         public void CloseCSV()
         {
-            CloseWriterStream(sw);
+            CloseWriterStream(_sw);
+            _sw = null;
         }
 
         /// <summary>

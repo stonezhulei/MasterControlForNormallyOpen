@@ -19,7 +19,7 @@ namespace MasterControl
         STA_STU,
     }
 
-    public partial class Form1 : Form
+    public partial class MasterUi : Form
     {
         private static object pLocker = new object();
         private static object rLocker = new object();
@@ -50,7 +50,7 @@ namespace MasterControl
             new FinsProxy("192.168.0.1"),
         };
  
-        public Form1()
+        public MasterUi()
         {
             InitializeComponent();
 

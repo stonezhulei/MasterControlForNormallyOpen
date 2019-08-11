@@ -121,22 +121,7 @@ namespace ExcelNPOI
             WriteToFile();
         }
 
-        public static ICellStyle CreateStyle(IWorkbook wb)
-        {
-            // 样式
-            ICellStyle style = wb.CreateCellStyle();
-            style.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center; // 文字水平对齐方式
-            style.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center; // 文字垂直对齐方式
-
-            //设置边框
-            style.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
-            style.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
-            style.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
-            style.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
-            style.WrapText = true; // 自动换行
-
-            return style;
-        }
+       
 
         void WriteToFile()
         {

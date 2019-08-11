@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,20 +12,22 @@ using NPOI.HSSF.UserModel;
 using NPOI.POIFS.FileSystem;
 using NPOI.OpenXml4Net.OPC;
 
-namespace ExcelNPOI
+namespace ExcelTool
 {
     public class OperationExcel
     {
         private int insertRowIndex;
         private int insertRowCount;
-        private Dictionary<int, string> insertData;
+        private StringCollection insertData;
+        private Dictionary<int, StringCollection> insertOneRowDataBySheetIndex; // sheet一行数据
+        private Dictionary<string, StringCollection> insertOneRowDataBySheetName; // sheet一行数据
 
         public OperationExcel()
         {
             insertRowCount = 1;
         }
 
-        public OperationExcel(int insertRowIndex, int insertRowCount, Dictionary<int, string> insertData = null)
+        public OperationExcel(int insertRowIndex, int insertRowCount, StringCollection insertData = null)
         {
             if (insertData != null)
             {
@@ -37,29 +40,38 @@ namespace ExcelNPOI
 
         private IWorkbook NPOIOpenExcel(string filename)
         {
-            IWorkbook myworkBook;
-            Stream excelStream = OpenResource(filename);
-            if (POIFSFileSystem.HasPOIFSHeader(excelStream))
-            {
-                return new HSSFWorkbook(excelStream);
-            }
+            Stream excelStream = null;
 
-            if (POIXMLDocument.HasOOXMLHeader(excelStream))
+            try
             {
-                return new XSSFWorkbook(OPCPackage.Open(excelStream));
-            }
+                excelStream = OpenResource(filename);
 
-            if (filename.EndsWith(".xlsx"))
+                if (POIFSFileSystem.HasPOIFSHeader(excelStream))
+                {
+                    return new HSSFWorkbook(excelStream);
+                }
+
+                if (POIXMLDocument.HasOOXMLHeader(excelStream))
+                {
+                    return new XSSFWorkbook(OPCPackage.Open(excelStream));
+                }
+
+                if (filename.EndsWith(".xlsx"))
+                {
+                    return new XSSFWorkbook(excelStream);
+                }
+
+                if (filename.EndsWith(".xls"))
+                {
+                    new HSSFWorkbook(excelStream);
+                }
+
+                throw new Exception("Your InputStream was neither an OLE2 stream, nor an OOXML stream");
+            }
+            finally
             {
-                return new XSSFWorkbook(excelStream);
+            	excelStream.Close();
             }
-
-            if (filename.EndsWith(".xls"))
-            {
-                new HSSFWorkbook(excelStream);
-            }
-
-            throw new Exception("Your InputStream was neither an OLE2 stream, nor an OOXML stream");
         }
 
         private Stream OpenResource(string filename)
@@ -121,7 +133,7 @@ namespace ExcelNPOI
                     firstTargetCell = firstTargetRow.GetCell(m, MissingCellPolicy.CREATE_NULL_AS_BLANK);
                     firstTargetCell.CellStyle = firstSourceCell.CellStyle;
                     firstTargetCell.SetCellType(firstSourceCell.CellType);
-                    if (this.insertData != null && this.insertData.Count > 0)
+                    if (this.insertData != null && this.insertData.Count > m)
                     {
                         firstTargetCell.SetCellValue(insertData[m]);
                     }
@@ -177,7 +189,7 @@ namespace ExcelNPOI
             }
         }
 
-        public bool AppendExcel(string path, Dictionary<int, string> insertData)
+        public bool AppendExcel(string path, StringCollection insertData)
         {
             try
             {
@@ -185,6 +197,7 @@ namespace ExcelNPOI
                 IWorkbook workbook = this.NPOIOpenExcel(path);
                 ISheet sheet = workbook.GetSheet("data");
                 insertRowIndex = sheet.LastRowNum + 1;
+                this.insertData.Insert(0, insertRowIndex.ToString()); // 插入行号
                 this.InsertRow(sheet, insertRowIndex, insertRowCount);
                 this.WriteToFile(workbook, path);
                 return true;

@@ -74,7 +74,7 @@ namespace ExcelTool
             sheetdata2.Add("S2", datalist);
             sheetdata2.Add("S3", datalist);
 
-            //ExcelHelper.Write(@"d:\6.xls", data, 0, true, true, @"d:\template.xls");
+            ExcelHelper.Write(@"d:\6.xlsx", data, 0, true, true, @"d:\template.xlsx");
             //ExcelHelper.Write(@"d:\7.xls", data, 0, true, true, @"d:\template.xls");
             //ExcelHelper.Write(@"d:\1.xls", data, "data", true, true, @"d:\template.xls");
             //ExcelHelper.Write(@"d:\2.xls", datalist, "data", true, true, @"d:\template.xls");
@@ -82,7 +82,15 @@ namespace ExcelTool
             //this.btnImport_Click(sender, e);
             //eh.WriteExcel(@"d:\2.xls", data, 0, true);
 
-            eh.Insert(@"d:\111.xls", data, true);
+            //eh.Insert(@"d:\111.xls", data, true);
+        }
+
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            process.StartInfo.FileName = @"d:\template.xls";
+            process.StartInfo.ErrorDialog = true;
+            process.Start();
         }
     }
 }

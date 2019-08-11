@@ -240,7 +240,7 @@ namespace ExcelTool
             FileStream datafile = OpenStreamWithPrompt(OpenWriterStream, savedataPath);
             try
             {
-                Write(datafile, wbTemplate);
+                WriteToFile(datafile, wbTemplate);
             }
             finally
             {
@@ -329,24 +329,26 @@ namespace ExcelTool
             return dtList;
         }
 
-        private static void Write(string path, IWorkbook wb)
+        #region 写 Excel 到文件流
+        private static void WriteToFile(string path, IWorkbook wb)
         {
             // Write the stream data of workbook to the root directory
-            FileStream file = new FileStream(path, FileMode.OpenOrCreate);
-            wb.Write(file);
-            file.Flush();
-            file.Close();
+            FileStream fs = OpenWriterStream(path);
+            wb.Write(fs);
+            fs.Flush();
+            fs.Close();
         }
 
-        private static void Write(FileStream fs, IWorkbook wb)
+        private static void WriteToFile(FileStream fs, IWorkbook wb)
         {
             wb.Write(fs);
             fs.Flush();
         }
+        #endregion
 
-        private static void Write(FileStream fs, IWorkbook wb, StringCollection data, int sheetIndex, bool append)
+        #region Excel 数据操作
+        private static void Makeup(ISheet sheet, StringCollection data)
         {
-            ISheet sheet = GetSheet(wb, sheetIndex, append);
             IRow row = CreateRow(sheet);
 
             for (int c = 0; c < data.Count; c++)
@@ -354,104 +356,77 @@ namespace ExcelTool
                 ICell cell = row.CreateCell(c + 1);
                 cell.SetCellValue(data[c]);
             }
-
-            Write(fs, wb);
         }
 
-        private static void Write(FileStream fs, IWorkbook wb, List<StringCollection> datalist, int sheetIndex, bool append)
+        private static void Makeup(ISheet sheet, List<StringCollection> datalist)
         {
-            ISheet sheet = GetSheet(wb, sheetIndex, append);
-            
             foreach (StringCollection data in datalist)
             {
-                IRow row = CreateRow(sheet);
-
-                for (int c = 0; c < data.Count; c++)
-                {
-                    ICell cell = row.CreateCell(c + 1);
-                    cell.SetCellValue(data[c]);
-                }
+                Makeup(sheet, data);
             }
-
-            Write(fs, wb);
         }
 
-        private static void Write(FileStream fs, IWorkbook wb, Dictionary<int, List<StringCollection>> sheetdata, bool append)
+        private static void Makeup(Dictionary<ISheet, StringCollection> sheetdata)
         {
+            foreach (ISheet sheet in sheetdata.Keys)
+            {
+                Makeup(sheet, sheetdata[sheet]);
+            }
+        }
+
+        private static void Makeup(Dictionary<ISheet, List<StringCollection>> sheetdata)
+        {
+            foreach (ISheet sheet in sheetdata.Keys)
+            {
+                Makeup(sheet, sheetdata[sheet]);
+            }
+        }
+
+        private static void Makeup(IWorkbook wb, StringCollection data, int sheetIndex, bool append)
+        {
+            ISheet sheet = GetSheet(wb, sheetIndex, append);
+            Makeup(sheet, data);
+        }
+
+        private static void Makeup(IWorkbook wb, List<StringCollection> datalist, int sheetIndex, bool append)
+        {
+            ISheet sheet = GetSheet(wb, sheetIndex, append);
+            Makeup(sheet, datalist);
+        }
+
+        private static void Makeup(IWorkbook wb, Dictionary<int, List<StringCollection>> sheetdata, bool append)
+        {  
             foreach (int sheetIndex in sheetdata.Keys)
             {
                 ISheet sheet = GetSheet(wb, sheetIndex, append);
                 List<StringCollection> datalist = sheetdata[sheetIndex];
-
-                foreach (StringCollection data in datalist)
-                {
-                    IRow row = CreateRow(sheet);
-
-                    for (int c = 0; c < data.Count; c++)
-                    {
-                        ICell cell = row.CreateCell(c + 1);
-                        cell.SetCellValue(data[c]);
-                    }
-                }
+                Makeup(sheet, datalist);
             }
-
-            Write(fs, wb);
         }
 
-        private static void Write(FileStream fs, IWorkbook wb, StringCollection data, string sheetName, bool append)
+        private static void Makeup(IWorkbook wb, StringCollection data, string sheetName, bool append)
         {
             ISheet sheet = GetSheet(wb, sheetName, append);
-            IRow row = CreateRow(sheet);
-  
-            for (int c = 0; c < data.Count; c++)
-            {
-                ICell cell = row.CreateCell(c + 1);
-                cell.SetCellValue(data[c]);
-            }
-
-            Write(fs, wb);
+            Makeup(sheet, data);
         }
 
-        private static void Write(FileStream fs, IWorkbook wb, List<StringCollection> datalist, string sheetName, bool append)
+        private static void Makeup(IWorkbook wb, List<StringCollection> datalist, string sheetName, bool append)
         {
             ISheet sheet = GetSheet(wb, sheetName, append);
-
-            foreach (StringCollection data in datalist)
-            {
-                IRow row = CreateRow(sheet);
-
-                for (int c = 0; c < data.Count; c++)
-                {
-                    ICell cell = row.CreateCell(c + 1);
-                    cell.SetCellValue(data[c]);
-                }
-            }
-
-            Write(fs, wb);
+            Makeup(sheet, datalist);
         }
 
-        private static void Write(FileStream fs, IWorkbook wb, Dictionary<string, List<StringCollection>> sheetdata, bool append)
+        private static void Makeup(IWorkbook wb, Dictionary<string, List<StringCollection>> sheetdata, bool append)
         {
             foreach (string sheetName in sheetdata.Keys)
             {
                 ISheet sheet = GetSheet(wb, sheetName, append);
                 List<StringCollection> datalist = sheetdata[sheetName];
-
-                foreach (StringCollection data in datalist)
-                {
-                    IRow row = CreateRow(sheet);
-
-                    for (int c = 0; c < data.Count; c++)
-                    {
-                        ICell cell = row.CreateCell(c + 1);
-                        cell.SetCellValue(data[c]);
-                    }
-                }
+                Makeup(sheet, datalist);
             }
-
-            Write(fs, wb);
         }
-
+        #endregion
+        
         /// <summary>
         /// 根据 index 向指定 sheet 写入一行
         /// </summary>
@@ -462,7 +437,8 @@ namespace ExcelTool
             try
             {
                 IWorkbook wb = File.Exists(path) ? OpenWorkbook(path) : hasTemplate ? CreateWorkbookByTemplate(templatePath, path) : CreateWorkbook(path);
-                Write((fs = OpenWriterStream(path)), wb, data, sheetIndex, append);
+                Makeup(wb, data, sheetIndex, append);
+                WriteToFile(path, wb);
                 return true;
             }
             catch (System.Exception ex)
@@ -487,7 +463,8 @@ namespace ExcelTool
             try
             {
                 IWorkbook wb = File.Exists(path) ? OpenWorkbook(path) : hasTemplate ? CreateWorkbookByTemplate(templatePath, path) : CreateWorkbook(path);
-                Write((fs = OpenWriterStream(path)), wb, datalist, sheetIndex, append);
+                Makeup(wb, datalist, sheetIndex, append);
+                WriteToFile(path, wb);
                 return true;
             }
             catch (System.Exception ex)
@@ -512,7 +489,8 @@ namespace ExcelTool
             try
             {
                 IWorkbook wb = File.Exists(path) ? OpenWorkbook(path) : hasTemplate ? CreateWorkbookByTemplate(templatePath, path) : CreateWorkbook(path);
-                Write((fs = OpenWriterStream(path)), wb, sheetdata, append);
+                Makeup(wb, sheetdata, append);
+                WriteToFile(path, wb);
                 return true;
             }
             catch (System.Exception ex)
@@ -537,7 +515,8 @@ namespace ExcelTool
             try
             {
                 IWorkbook wb = File.Exists(path) ? OpenWorkbook(path) : hasTemplate ? CreateWorkbookByTemplate(templatePath, path) : CreateWorkbook(path);
-                Write((fs = OpenWriterStream(path)), wb, data, sheetName, append);
+                Makeup(wb, data, sheetName, append);
+                WriteToFile(path, wb);
                 return true;
             }
             catch (System.Exception ex)
@@ -562,7 +541,8 @@ namespace ExcelTool
             try
             {
                 IWorkbook wb = File.Exists(path) ? OpenWorkbook(path) : hasTemplate ? CreateWorkbookByTemplate(templatePath, path) : CreateWorkbook(path);
-                Write((fs = OpenWriterStream(path)), wb, datalist, sheetName, append);
+                Makeup(wb, datalist, sheetName, append);
+                WriteToFile(path, wb);
                 return true;
             }
             catch (System.Exception ex)
@@ -587,7 +567,8 @@ namespace ExcelTool
             try
             {
                 IWorkbook wb = File.Exists(path) ? OpenWorkbook(path) : hasTemplate ? CreateWorkbookByTemplate(templatePath, path) : CreateWorkbook(path);
-                Write((fs = OpenWriterStream(path)), wb, sheetdata, append);
+                Makeup(wb, sheetdata, append);
+                WriteToFile(path, wb);
                 return true;
             }
             catch (System.Exception ex)
@@ -610,7 +591,8 @@ namespace ExcelTool
             try
             {
                 this.ReOpenExcel(path, append);
-                Write(_fs, _wb, data, sheetIndex, _append);
+                Makeup(_wb, data, sheetIndex, _append);
+                WriteToFile(_fs, _wb);
                 return true;
             }
             catch (System.Exception ex)
@@ -634,7 +616,8 @@ namespace ExcelTool
             try
             {
                 this.ReOpenExcel(path, append);
-                Write(_fs, _wb, datalist, sheetIndex, _append);
+                Makeup(_wb, datalist, sheetIndex, _append);
+                WriteToFile(_fs, _wb);
                 return true;
             }
             catch (System.Exception ex)
@@ -658,7 +641,8 @@ namespace ExcelTool
             try
             {
                 this.ReOpenExcel(path, append);
-                Write(_fs, _wb, sheetdata, _append);
+                Makeup(_wb, sheetdata, _append);
+                WriteToFile(_fs, _wb);
                 return true;
             }
             catch (System.Exception ex)
@@ -682,7 +666,8 @@ namespace ExcelTool
             try
             {
                 this.ReOpenExcel(path, append);
-                Write(_fs, _wb, data, sheetName, _append);
+                Makeup(_wb, data, sheetName, _append);
+                WriteToFile(_fs, _wb);
                 return true;
             }
             catch (System.Exception ex)
@@ -706,7 +691,8 @@ namespace ExcelTool
             try
             {
                 this.ReOpenExcel(path, append);
-                Write(_fs, _wb, datalist, sheetName, _append);
+                Makeup(_wb, datalist, sheetName, _append);
+                WriteToFile(_fs, _wb);
                 return true;
             }
             catch (System.Exception ex)
@@ -730,7 +716,8 @@ namespace ExcelTool
             try
             {
                 this.ReOpenExcel(path, append);
-                Write(_fs, _wb, sheetdata, _append);
+                Makeup(_wb, sheetdata, _append);
+                WriteToFile(_fs, _wb);
                 return true;
             }
             catch (System.Exception ex)

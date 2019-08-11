@@ -46,7 +46,6 @@ namespace MasterControl
         public DataCollect(string path)
         {
             string fileName = DateTime.Now.ToString("yyMMdd") + ".xls";
-            excelHelper = new ExcelHelper(path + "\\template.xls", path + "\\1.xls");
 
             para = new Para(path);
             for (int i = 0; i < Para.PLCNUM; i++)

@@ -87,10 +87,17 @@ namespace ExcelTool
 
         private void btnOpen_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process process = new System.Diagnostics.Process();
-            process.StartInfo.FileName = @"d:\template.xls";
-            process.StartInfo.ErrorDialog = true;
-            process.Start();
+            try
+            {
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                process.StartInfo.FileName = @"d:\template.xlsx";
+                process.StartInfo.ErrorDialog = true;
+                process.Start();
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

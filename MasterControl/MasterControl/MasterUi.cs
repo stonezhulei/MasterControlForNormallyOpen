@@ -63,7 +63,7 @@ namespace MasterControl
             for (int op = 0; op < OPNUM; op++)
             {
                 ushort[] plcAddr = new ushort[PLCADDRSIZE];
-                plcAddr[PID] = (ushort)(iniManger.ReadInteger("OP" + (op + 1), "PID", 0) - 1);
+                plcAddr[PID] = (ushort)(iniManger.ReadInteger("OP" + (op + 1), "PID", 1) - 1);
                 plcAddr[STAControl] = (ushort)iniManger.ReadInteger("OP" + (op + 1), "STAControl", 0);
                 plcAddr[STA] = (ushort)iniManger.ReadInteger("OP" + (op + 1), "STA", 0);
                 plcAddr[STA_STU] = (ushort)iniManger.ReadInteger("OP" + (op + 1), "STA_STU", 0);

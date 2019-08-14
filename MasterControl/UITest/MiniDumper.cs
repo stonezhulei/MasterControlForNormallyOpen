@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
+using System.Security.Principal;
+using System.Security.AccessControl;
+using System.Globalization;
 
 namespace UITest
 {
     public static class MiniDumper
     {
         [Flags]
-        public enum Option : uint
+        public enum MiniDumpType : uint
         {
             // From dbghelp.h:
             Normal = 0x00000000,
@@ -39,6 +42,13 @@ namespace UITest
             None,
             Present
         }
+
+
+        public static string DumperDir { get; set; }
+
+        public static int MaxDumpNum { get; set; }
+
+        public static string ProcessSuffix { get; set; }
 
         //typedef struct _MINIDUMP_EXCEPTION_INFORMATION {
         //    DWORD ThreadId;
@@ -76,7 +86,7 @@ namespace UITest
         [DllImport("kernel32.dll", EntryPoint = "GetCurrentThreadId", ExactSpelling = true)]
         static extern uint GetCurrentThreadId();
 
-        static bool Write(SafeHandle fileHandle, Option options, ExceptionInfo exceptionInfo)
+        static bool Write(SafeHandle fileHandle, MiniDumpType dumpType, ExceptionInfo exceptionInfo)
         {
             Process currentProcess = Process.GetCurrentProcess();
             IntPtr currentProcessHandle = currentProcess.Handle;
@@ -91,28 +101,105 @@ namespace UITest
                 exp.ExceptionPointers = Marshal.GetExceptionPointers();
             }
 
-            return exp.ExceptionPointers == IntPtr.Zero ? 
-                MiniDumpWriteDump(currentProcessHandle, currentProcessId, fileHandle, (uint)options, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero) : 
-                MiniDumpWriteDump(currentProcessHandle, currentProcessId, fileHandle, (uint)options, ref exp, IntPtr.Zero, IntPtr.Zero);
+            return exp.ExceptionPointers == IntPtr.Zero ?
+                MiniDumpWriteDump(currentProcessHandle, currentProcessId, fileHandle, (uint)dumpType, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero) :
+                MiniDumpWriteDump(currentProcessHandle, currentProcessId, fileHandle, (uint)dumpType, ref exp, IntPtr.Zero, IntPtr.Zero);
         }
 
-        static bool Write(SafeHandle fileHandle, Option dumpType)
+        static bool Write(SafeHandle fileHandle, MiniDumpType dumpType)
         {
             return Write(fileHandle, dumpType, ExceptionInfo.None);
         }
 
-        public static Boolean TryDump(String dmpPath, Option dmpType = Option.Normal)
+        public static void TryDump(String dmpPath, MiniDumpType dmpType = MiniDumpType.Normal)
         {
-            var path = Path.Combine(Environment.CurrentDirectory, dmpPath);
-            var dir = Path.GetDirectoryName(path);
-            if (dir != null && !Directory.Exists(dir))
+            try
             {
-                Directory.CreateDirectory(dir);
-            }
+                var path = Path.Combine(Environment.CurrentDirectory, dmpPath);
+                var dir = Path.GetDirectoryName(path);
+                if (dir != null && !Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
 
-            using (var fs = new FileStream(path, FileMode.Create))
+                using (var fs = new FileStream(path, FileMode.Create))
+                {
+                    Write(fs.SafeFileHandle, dmpType);
+                    fs.Flush();
+                }
+            }
+            catch (System.Exception ex)
             {
-                return Write(fs.SafeFileHandle, dmpType);
+                Debug.WriteLine("TryDump Error!" + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 转储当前进程的异常 Dump.
+        /// </summary>
+        public static void RecordDump()
+        {
+            // 捕获dump
+            string fmtstr = "yyyy-MM-dd HH-mm-ss";
+            string dumpath = System.IO.Path.Combine(
+                MiniDumper.DumperDir,
+                "MiniDmp{" + DateTime.Now.ToString(fmtstr, CultureInfo.CurrentCulture) + "}" + MiniDumper.ProcessSuffix + ".dmp");
+
+            CheckAndCreateDumpDir();
+            TryDump(dumpath, MiniDumpType.WithFullMemory | MiniDumpType.WithHandleData | MiniDumpType.WithUnloadedModules | MiniDumpType.WithProcessThreadData | MiniDumpType.WithThreadInfo);
+            ClearSuperfluousDumpFiles();
+        }
+
+        /// <summary>
+        /// 创建 dump 目录
+        /// </summary>
+        private static void CheckAndCreateDumpDir()
+        {
+            if (!System.IO.Directory.Exists(MiniDumper.DumperDir))
+            {
+                try
+                {
+                    SecurityIdentifier sid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
+                    InheritanceFlags inherits = InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit;
+                    FileSystemAccessRule newRule = new FileSystemAccessRule(sid, FileSystemRights.FullControl, inherits, PropagationFlags.NoPropagateInherit, AccessControlType.Allow);
+                    DirectorySecurity ds = new DirectorySecurity();
+                    ds.AddAccessRule(newRule);
+                    System.IO.Directory.CreateDirectory(MiniDumper.DumperDir, ds);
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.WriteLine("CreateDirectory Dumper Error!" + ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        ///  删除多余的 dump 文件
+        /// </summary>
+        private static void ClearSuperfluousDumpFiles()
+        {
+            string[] dumpfiles = Directory.GetFiles(MiniDumper.DumperDir, "*.dmp");
+
+            // 根据创建时间排序
+            var query = (from f in dumpfiles
+                         let fi = new FileInfo(f)
+                         orderby fi.CreationTime descending
+                         select fi.FullName).Take(MiniDumper.MaxDumpNum);
+            string[] retain = query.ToArray(); // 需要保留的 dump 文件
+           
+            foreach (var f in dumpfiles)
+            {
+                if (!retain.Contains(f))
+                {
+                    try
+                    {
+                        File.Delete(f);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        Debug.WriteLine("CreateDirectory Dumper Error!" + ex.Message);
+                    }
+                }
             }
         }
     }

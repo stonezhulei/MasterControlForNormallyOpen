@@ -65,6 +65,7 @@ bool udpFinsCommand::PLCConnect()
     }
     catch (const char * msg)
     {
+        puts(msg);
         return false;
     }
     return false;

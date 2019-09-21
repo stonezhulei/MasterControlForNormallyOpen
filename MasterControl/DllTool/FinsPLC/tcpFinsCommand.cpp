@@ -107,6 +107,7 @@ namespace OmronPlc
         }
         catch (const char * msg)
         {
+            puts(msg);
             return false;
         }
     }

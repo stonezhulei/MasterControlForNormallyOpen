@@ -1,4 +1,4 @@
-// DllTool.cpp : �������̨Ӧ�ó������ڵ㡣
+﻿// DllTool.cpp : dll 测试入口，该工程使用 C++ (非 CLR) 导出 dll，不能被 C# 通过“项目”来引用，只能引用 dll 文件
 //
 
 #include "stdafx.h"

@@ -21,6 +21,8 @@ namespace ExcelTool
         private StringCollection insertData;
         private Dictionary<int, StringCollection> insertOneRowDataBySheetIndex; // sheet一行数据
         private Dictionary<string, StringCollection> insertOneRowDataBySheetName; // sheet一行数据
+        private int startRowCount = 0; // 起始行数
+        private bool firstWrite = false;
 
         public OperationExcel()
         {
@@ -195,9 +197,16 @@ namespace ExcelTool
             {
                 this.insertData = insertData;
                 IWorkbook workbook = this.NPOIOpenExcel(path);
-                ISheet sheet = workbook.GetSheet("data");
+                ISheet sheet = workbook.GetSheet("data"); // 写模板 Sheet["data"]
                 insertRowIndex = sheet.LastRowNum + 1;
-                this.insertData.Insert(0, insertRowIndex.ToString()); // 插入行号
+
+                if (!firstWrite) {
+                    firstWrite = true;
+                    startRowCount = insertRowIndex; // 获取模板起始行数
+                }
+
+                int showRowIndex = insertRowIndex - startRowCount + 1;  // 显示的行号
+                this.insertData.Insert(0, showRowIndex.ToString()); // 第 1 列插入行号
                 this.InsertRow(sheet, insertRowIndex, insertRowCount);
                 this.WriteToFile(workbook, path);
                 return true;

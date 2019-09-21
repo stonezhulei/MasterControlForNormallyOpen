@@ -21,19 +21,15 @@ namespace ExcelTool
     {
         private FileStream _fs; // 独占流
         private IWorkbook _wb;
-        private string _path;
         private bool _append;
+        private string _path;
         private string _templatepath;
-        private OperationExcel _oe = new OperationExcel();
+        private OperationExcel _oe = new OperationExcel(); // 只支持写单个Sheet
 
         public ExcelHelper(string templatepath)
         {
             this._templatepath = templatepath;
         }
-
-        private static int headerLines = 0;
-
-        private static readonly int HeaderLines = 2;
 
         private static object locker = new object();
 

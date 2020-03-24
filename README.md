@@ -1,3 +1,6 @@
-### MasterControlForNormallyOpen
+#### MasterControl
 
-The sofware aims to collect information status of each site and store the data of the main station
+- [ ] `DllTool` → *plc* 通讯模块
+- [ ] `FileTool` → *文本*  文件读写
+- [ ] `ExcelTool` - *excel* 文件读写
+

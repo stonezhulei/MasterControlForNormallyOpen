@@ -185,16 +185,16 @@
             this.pnlPageCountSetting.Controls.Add(this.label6);
             this.pnlPageCountSetting.Controls.Add(this.cbxLimitPerPageCount);
             this.pnlPageCountSetting.Controls.Add(this.tbxPageCount);
-            this.pnlPageCountSetting.Location = new System.Drawing.Point(1516, 0);
+            this.pnlPageCountSetting.Location = new System.Drawing.Point(1544, 0);
             this.pnlPageCountSetting.Name = "pnlPageCountSetting";
-            this.pnlPageCountSetting.Size = new System.Drawing.Size(317, 28);
+            this.pnlPageCountSetting.Size = new System.Drawing.Size(283, 28);
             this.pnlPageCountSetting.TabIndex = 5;
             this.pnlPageCountSetting.Visible = false;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(213, 7);
+            this.label6.Location = new System.Drawing.Point(181, 7);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(98, 15);
             this.label6.TabIndex = 5;
@@ -213,9 +213,9 @@
             // 
             // tbxPageCount
             // 
-            this.tbxPageCount.Location = new System.Drawing.Point(109, 3);
+            this.tbxPageCount.Location = new System.Drawing.Point(106, 3);
             this.tbxPageCount.Name = "tbxPageCount";
-            this.tbxPageCount.Size = new System.Drawing.Size(100, 25);
+            this.tbxPageCount.Size = new System.Drawing.Size(72, 25);
             this.tbxPageCount.TabIndex = 4;
             this.tbxPageCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbxPageCount_KeyPress);
             this.tbxPageCount.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbxPageCount_KeyUp);
@@ -305,14 +305,14 @@
             this.bindingNavigatorMoveLastItem,
             this.bindingNavigatorSeparator3,
             this.bindingNavigatorSetting});
-            this.bindingNavigator.Location = new System.Drawing.Point(1657, 1);
+            this.bindingNavigator.Location = new System.Drawing.Point(1630, 1);
             this.bindingNavigator.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.bindingNavigator.MoveLastItem = this.bindingNavigatorMoveLastItem;
             this.bindingNavigator.MoveNextItem = this.bindingNavigatorMoveNextItem;
             this.bindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.bindingNavigator.Name = "bindingNavigator";
             this.bindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigator.Size = new System.Drawing.Size(197, 27);
+            this.bindingNavigator.Size = new System.Drawing.Size(288, 27);
             this.bindingNavigator.TabIndex = 4;
             this.bindingNavigator.Text = "bindingNavigator1";
             // 
@@ -356,7 +356,7 @@
             this.bindingNavigatorPositionItem.AccessibleName = "Position";
             this.bindingNavigatorPositionItem.AutoSize = false;
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
-            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 27);
+            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(72, 27);
             this.bindingNavigatorPositionItem.Text = "0";
             this.bindingNavigatorPositionItem.ToolTipText = "Current position";
             this.bindingNavigatorPositionItem.TextChanged += new System.EventHandler(this.bindingNavigatorPositionItem_TextChanged);

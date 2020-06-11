@@ -31,12 +31,23 @@ namespace UITest
             //this.Width = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
             //this.Height = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
 
+            this.bindingNavigatorMoveFirstItem.Enabled = true;
+            this.bindingNavigatorMovePreviousItem.Enabled = true;
+            this.bindingNavigatorMoveNextItem.Enabled = true;
+            this.bindingNavigatorMoveLastItem.Enabled = true;
+
             // 测试 200 万条数据
             DataSet ds = SQLHelper.GetDataSet("select * from data");
             DataTable dt = ds.Tables[0];
             bs.DataSource = dt;
             this.bindingNavigator.BindingSource = bs;
             this.dgvResult.DataSource = bs;
+
+            //MySqlDataReader sdr = SQLHelper.ExecuteReader(@"select table_name from information_schema.tables where table_schema='master_control'");
+            //while (sdr.Read())
+            //{
+            //    cbxSelectTable.Items.Add(sdr[0].ToString());
+            //}
         }
 
         public void RefreshResult(StringCollection data)
@@ -271,22 +282,22 @@ namespace UITest
 
         private void bindingNavigatorMoveFirstItem_Click(object sender, EventArgs e)
         {
-
+            this.bs.MoveFirst();
         }
 
         private void bindingNavigatorMovePreviousItem_Click(object sender, EventArgs e)
         {
-
+            //this.bs.MovePrevious();
         }
 
         private void bindingNavigatorMoveNextItem_Click(object sender, EventArgs e)
         {
-
+            //this.bs.MoveNext();
         }
 
         private void bindingNavigatorMoveLastItem_Click(object sender, EventArgs e)
         {
-
+            this.bs.MoveLast();
         }
 
         private void bindingNavigatorPositionItem_TextChanged(object sender, EventArgs e)

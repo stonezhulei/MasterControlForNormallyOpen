@@ -10,11 +10,13 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using MasterControl;
+using DB.MySql;
 
 namespace UITest
 {
     public partial class Form4 : Form
     {
+        private BindingSource bs = new BindingSource();
         private List<WorkStation> wslist = new List<WorkStation>();
         private DataCollect dc = new DataCollect(Application.StartupPath);
 
@@ -29,7 +31,12 @@ namespace UITest
             //this.Width = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
             //this.Height = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
 
-
+            // 测试 200 万条数据
+            DataSet ds = SQLHelper.GetDataSet("select * from data");
+            DataTable dt = ds.Tables[0];
+            bs.DataSource = dt;
+            this.bindingNavigator.BindingSource = bs;
+            this.dgvResult.DataSource = bs;
         }
 
         public void RefreshResult(StringCollection data)

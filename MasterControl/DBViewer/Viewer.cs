@@ -96,5 +96,20 @@ namespace DBViewer
                 return;
             }
         }
+
+        private void dgvResult_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            DataGridView dgv = sender as DataGridView;
+            Rectangle rectangle = new Rectangle(e.RowBounds.Location.X,
+                                                e.RowBounds.Location.Y,
+                                                dgv.RowHeadersWidth - 4,
+                                                e.RowBounds.Height);
+
+            TextRenderer.DrawText(e.Graphics, (e.RowIndex + 1).ToString(),
+                                    dgv.RowHeadersDefaultCellStyle.Font,
+                                    rectangle,
+                                    dgv.RowHeadersDefaultCellStyle.ForeColor,
+                                    TextFormatFlags.VerticalCenter | TextFormatFlags.Right);
+        }
     }
 }

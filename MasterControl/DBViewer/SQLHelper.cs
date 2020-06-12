@@ -29,11 +29,7 @@ namespace DB.MySql
         /// <returns>执行命令所影响的行数</returns>
         public static int ExecuteNonQuery(string cmdText, CommandType cmdType = CommandType.Text, params MySqlParameter[] commandParameters)
         {
-
-
             MySqlCommand cmd = new MySqlCommand();
-
-
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 PrepareCommand(cmd, conn, null, cmdType, cmdText, commandParameters);
@@ -138,8 +134,6 @@ namespace DB.MySql
         public static object ExecuteScalar(string cmdText, CommandType cmdType = CommandType.Text, params MySqlParameter[] commandParameters)
         {
             MySqlCommand cmd = new MySqlCommand();
-
-
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 PrepareCommand(cmd, connection, null, cmdType, cmdText, commandParameters);
@@ -148,7 +142,6 @@ namespace DB.MySql
                 return val;
             }
         }
-
 
         /// <summary>
         /// 将参数集合添加到缓存
@@ -170,17 +163,13 @@ namespace DB.MySql
         {
             MySqlParameter[] cachedParms = (MySqlParameter[])parmCache[cacheKey];
 
-
             if (cachedParms == null)
                 return null;
 
-
             MySqlParameter[] clonedParms = new MySqlParameter[cachedParms.Length];
-
 
             for (int i = 0, j = cachedParms.Length; i < j; i++)
                 clonedParms[i] = (MySqlParameter)((ICloneable)cachedParms[i]).Clone();
-
 
             return clonedParms;
         }
@@ -200,17 +189,13 @@ namespace DB.MySql
             if (conn.State != ConnectionState.Open)
                 conn.Open();
 
-
             cmd.Connection = conn;
             cmd.CommandText = cmdText;
-
 
             if (trans != null)
                 cmd.Transaction = trans;
 
-
             cmd.CommandType = cmdType;
-
 
             if (cmdParms != null)
             {
@@ -225,8 +210,6 @@ namespace DB.MySql
                 }
             }
         }
-
-
 
         public SQLHelper()
         {

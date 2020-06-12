@@ -27,7 +27,7 @@ namespace UITest
 
             if (Program.IsSingleton("MasterControl/UITest"))
             {
-                Application.Run(new Form4());
+                Application.Run(new Form5());
                 ReleaseSingleton();
             }
             else

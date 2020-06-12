@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using MasterControl;
-using DB.MySql;
+//using DB.MySql;
 
 namespace UITest
 {
@@ -36,12 +36,15 @@ namespace UITest
             this.bindingNavigatorMoveNextItem.Enabled = true;
             this.bindingNavigatorMoveLastItem.Enabled = true;
 
+            //object o = SQLHelper.ExecuteScalar("select count(*) from data");
+            //int count1 = Convert.ToInt32(o);
+
             // 测试 200 万条数据
-            DataSet ds = SQLHelper.GetDataSet("select * from data");
-            DataTable dt = ds.Tables[0];
-            bs.DataSource = dt;
-            this.bindingNavigator.BindingSource = bs;
-            this.dgvResult.DataSource = bs;
+            //DataSet ds = SQLHelper.GetDataSet("select * from data");
+            //DataTable dt = ds.Tables[0];
+            //bs.DataSource = dt;
+            //this.bindingNavigator.BindingSource = bs;
+            //this.dgvResult.DataSource = bs;
 
             //MySqlDataReader sdr = SQLHelper.ExecuteReader(@"select table_name from information_schema.tables where table_schema='master_control'");
             //while (sdr.Read())

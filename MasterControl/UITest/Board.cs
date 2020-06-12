@@ -12,12 +12,12 @@ using MasterControl;
 
 namespace UITest
 {
-    public partial class Form3 : Form
+    public partial class Board : Form
     {
         private List<WorkStation> wslist = new List<WorkStation>();
         private DataCollect dc = new DataCollect(Application.StartupPath);
 
-        public Form3()
+        public Board()
         {
             InitializeComponent();
             // 取得当前的屏幕除任务栏外的工作域大小

@@ -1,6 +1,6 @@
 ﻿namespace UITest
 {
-    partial class Form3
+    partial class Board
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form3));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Board));
             this.pnlBody = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.pnlFoot = new System.Windows.Forms.Panel();
@@ -61,7 +61,7 @@
             this.pnlBody.Location = new System.Drawing.Point(0, 0);
             this.pnlBody.Margin = new System.Windows.Forms.Padding(2);
             this.pnlBody.Name = "pnlBody";
-            this.pnlBody.Size = new System.Drawing.Size(1533, 794);
+            this.pnlBody.Size = new System.Drawing.Size(1914, 992);
             this.pnlBody.TabIndex = 0;
             // 
             // textBox1
@@ -71,11 +71,12 @@
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Font = new System.Drawing.Font("微软雅黑", 36F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.textBox1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.textBox1.Location = new System.Drawing.Point(1390, 50);
+            this.textBox1.Location = new System.Drawing.Point(1736, 62);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox1.Size = new System.Drawing.Size(76, 614);
+            this.textBox1.Size = new System.Drawing.Size(95, 768);
             this.textBox1.TabIndex = 100000;
             this.textBox1.Text = "常开阀自动组装看板";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -86,10 +87,10 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlFoot.Controls.Add(this.dgvResults);
-            this.pnlFoot.Location = new System.Drawing.Point(0, 798);
+            this.pnlFoot.Location = new System.Drawing.Point(0, 998);
             this.pnlFoot.Margin = new System.Windows.Forms.Padding(2);
             this.pnlFoot.Name = "pnlFoot";
-            this.pnlFoot.Size = new System.Drawing.Size(1533, 61);
+            this.pnlFoot.Size = new System.Drawing.Size(1916, 76);
             this.pnlFoot.TabIndex = 1;
             // 
             // dgvResults
@@ -119,13 +120,14 @@
             this.dgvResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvResults.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvResults.Location = new System.Drawing.Point(0, 0);
+            this.dgvResults.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dgvResults.Name = "dgvResults";
             this.dgvResults.RowHeadersWidth = 40;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgvResults.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvResults.RowTemplate.Height = 23;
             this.dgvResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvResults.Size = new System.Drawing.Size(1533, 61);
+            this.dgvResults.Size = new System.Drawing.Size(1916, 76);
             this.dgvResults.TabIndex = 30;
             // 
             // Column9
@@ -205,13 +207,26 @@
             this.Column5.Name = "Column5";
             this.Column5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // Column6
+            // 
+            this.Column6.Name = "Column6";
+            // 
+            // Column7
+            // 
+            this.Column7.Name = "Column7";
+            // 
+            // Column8
+            // 
+            this.Column8.Name = "Column8";
+            // 
             // Form3
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1533, 859);
+            this.ClientSize = new System.Drawing.Size(1914, 1047);
             this.Controls.Add(this.pnlFoot);
             this.Controls.Add(this.pnlBody);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form3";

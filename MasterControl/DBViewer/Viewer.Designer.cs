@@ -49,8 +49,8 @@
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.pnlPageCountSetting = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
-            this.cbxLimitPerPageCount = new System.Windows.Forms.CheckBox();
-            this.tbxPageCount = new System.Windows.Forms.TextBox();
+            this.cbxLimitPageSize = new System.Windows.Forms.CheckBox();
+            this.tbxPageSize = new System.Windows.Forms.TextBox();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -211,11 +211,13 @@
             // 
             // pnlMid
             // 
+            this.pnlMid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlMid.Controls.Add(this.dgvResult);
-            this.pnlMid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMid.Location = new System.Drawing.Point(0, 35);
             this.pnlMid.Name = "pnlMid";
-            this.pnlMid.Size = new System.Drawing.Size(1906, 983);
+            this.pnlMid.Size = new System.Drawing.Size(1906, 924);
             this.pnlMid.TabIndex = 3;
             // 
             // dgvResult
@@ -239,7 +241,7 @@
             this.dgvResult.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dgvResult.RowTemplate.Height = 27;
             this.dgvResult.RowTemplate.ReadOnly = true;
-            this.dgvResult.Size = new System.Drawing.Size(1906, 983);
+            this.dgvResult.Size = new System.Drawing.Size(1906, 924);
             this.dgvResult.TabIndex = 0;
             this.dgvResult.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dgvResult_RowPostPaint);
             // 
@@ -261,8 +263,8 @@
             this.pnlPageCountSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlPageCountSetting.BackColor = System.Drawing.SystemColors.Control;
             this.pnlPageCountSetting.Controls.Add(this.label6);
-            this.pnlPageCountSetting.Controls.Add(this.cbxLimitPerPageCount);
-            this.pnlPageCountSetting.Controls.Add(this.tbxPageCount);
+            this.pnlPageCountSetting.Controls.Add(this.cbxLimitPageSize);
+            this.pnlPageCountSetting.Controls.Add(this.tbxPageSize);
             this.pnlPageCountSetting.Location = new System.Drawing.Point(1589, 0);
             this.pnlPageCountSetting.Name = "pnlPageCountSetting";
             this.pnlPageCountSetting.Size = new System.Drawing.Size(283, 28);
@@ -278,25 +280,28 @@
             this.label6.TabIndex = 5;
             this.label6.Text = "条记录(每页)";
             // 
-            // cbxLimitPerPageCount
+            // cbxLimitPageSize
             // 
-            this.cbxLimitPerPageCount.AutoSize = true;
-            this.cbxLimitPerPageCount.Location = new System.Drawing.Point(9, 5);
-            this.cbxLimitPerPageCount.Name = "cbxLimitPerPageCount";
-            this.cbxLimitPerPageCount.Size = new System.Drawing.Size(89, 19);
-            this.cbxLimitPerPageCount.TabIndex = 4;
-            this.cbxLimitPerPageCount.Text = "限制记录";
-            this.cbxLimitPerPageCount.UseVisualStyleBackColor = true;
-            this.cbxLimitPerPageCount.CheckedChanged += new System.EventHandler(this.cbxLimitPerPageCount_CheckedChanged);
+            this.cbxLimitPageSize.AutoSize = true;
+            this.cbxLimitPageSize.Checked = true;
+            this.cbxLimitPageSize.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbxLimitPageSize.Location = new System.Drawing.Point(9, 5);
+            this.cbxLimitPageSize.Name = "cbxLimitPageSize";
+            this.cbxLimitPageSize.Size = new System.Drawing.Size(89, 19);
+            this.cbxLimitPageSize.TabIndex = 4;
+            this.cbxLimitPageSize.Text = "限制记录";
+            this.cbxLimitPageSize.UseVisualStyleBackColor = true;
+            this.cbxLimitPageSize.CheckedChanged += new System.EventHandler(this.cbxLimitPerPageCount_CheckedChanged);
             // 
-            // tbxPageCount
+            // tbxPageSize
             // 
-            this.tbxPageCount.Location = new System.Drawing.Point(106, 3);
-            this.tbxPageCount.Name = "tbxPageCount";
-            this.tbxPageCount.Size = new System.Drawing.Size(72, 25);
-            this.tbxPageCount.TabIndex = 4;
-            this.tbxPageCount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbxPageCount_KeyPress);
-            this.tbxPageCount.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbxPageCount_KeyUp);
+            this.tbxPageSize.Location = new System.Drawing.Point(106, 3);
+            this.tbxPageSize.Name = "tbxPageSize";
+            this.tbxPageSize.Size = new System.Drawing.Size(72, 25);
+            this.tbxPageSize.TabIndex = 4;
+            this.tbxPageSize.Text = "50";
+            this.tbxPageSize.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbxPageSize_KeyPress);
+            this.tbxPageSize.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbxPageSize_KeyUp);
             // 
             // statusStrip
             // 
@@ -530,8 +535,8 @@
         private System.Windows.Forms.Panel pnlBottom;
         private System.Windows.Forms.Panel pnlPageCountSetting;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckBox cbxLimitPerPageCount;
-        private System.Windows.Forms.TextBox tbxPageCount;
+        private System.Windows.Forms.CheckBox cbxLimitPageSize;
+        private System.Windows.Forms.TextBox tbxPageSize;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;

@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fields.cs" />
+    <Compile Include="PageItem.cs" />
     <Compile Include="SQLHelper.cs" />
     <Compile Include="Viewer.cs">
       <SubType>Form</SubType>

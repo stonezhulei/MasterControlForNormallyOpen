@@ -124,6 +124,28 @@ namespace MasterControl
             }
         }
 
+        private void Test1(int op, OnRun start, OnRun end, OnRun action, OnRun ack)
+        {
+            bool noRead = true;
+            while (!needStop)
+            {
+                if (noRead && start(op))
+                {
+                    // 清空
+                    action(op);
+                    ack(op);
+                    noRead = false;
+                }
+
+                if (!noRead && !end(op))
+                {
+                    noRead = true;
+                }
+
+                //Thread.Sleep(10);
+            }
+        }
+
         public void ListenPressResult(Object o)
         {
             Test((int)o, IsPressResultReady, IsPressResultReady, setPressResult, SendPLCPressAck);
@@ -141,7 +163,7 @@ namespace MasterControl
 
         public void ListenResult()
         {
-            Test(Para.OPTOTAL, IsResultReady, IsResultReady, setResult, SendPLCAck1);
+            Test1(Para.OPTOTAL, IsResultReady, IsResultReady, setResult, SendPLCAck1);
         }
 
         public void ListenStatus()
@@ -255,14 +277,26 @@ namespace MasterControl
                 // OP10 - OP70
                 Array.Clear(bytes[0], 0, 120);
                 fins[pid].ReadDM(para.Worklist[op][Para.TOPCDataStr1], bytes[0]);
+                //while (!fins[pid].ReadDM(para.Worklist[op][Para.TOPCDataStr1], bytes[0]))
+                //{
+                //    Thread.Sleep(100);
+                //}
 
                 // OP80 - OP110
                 Array.Clear(bytes[1], 0, 120);
                 fins[pid].ReadDM(para.Worklist[op][Para.TOPCDataStr2], bytes[1]);
+                //while (!fins[pid].ReadDM(para.Worklist[op][Para.TOPCDataStr2], bytes[1]))
+                //{
+                //    Thread.Sleep(100);
+                //}
 
                 // OP120 - OP130
                 Array.Clear(bytes[2], 0, 120);
-                fins[pid].ReadDM(para.Worklist[op][Para.TOPCDataStr3], bytes[2]);
+                fins[pid].ReadDM(1600, bytes[2]);
+                //while (!fins[pid].ReadDM(para.Worklist[op][Para.TOPCDataStr3], bytes[2]))
+                //{
+                //    Thread.Sleep(100);
+                //}
             }
 
             StringCollection data = new StringCollection();
@@ -270,10 +304,12 @@ namespace MasterControl
             data.Add(System.Text.Encoding.Default.GetString(bytes[1]));
             data.Add(System.Text.Encoding.Default.GetString(bytes[2]));
 
-            onParse(data);
-            onSendWeb(data);
-            onShownResult(data);
-            para.SaveResultData(data);
+            //onParse1(data);
+
+            //onParse(data);
+            //onSendWeb(data);
+            //onShownResult(data);
+            //para.SaveResultData(data);
 
             return true;
         }
@@ -285,6 +321,158 @@ namespace MasterControl
             //data.Add("33");
             string s = string.Join(",", data.OfType<string>());
             Console.WriteLine(s); // 111,2,33
+        }
+
+        public void onParse1(StringCollection data)
+        {
+            string[] td1 = data[0].Split('\'');
+            string[] td2 = data[1].Split('\'');
+            string[] td3 = data[2].Split('\'');
+
+            data.Clear();
+
+            string s;
+            // 1.时间 'A0731132230' -> 2019-07-31 13:22:30
+            s = td1[0];
+            string s1 = string.Format("{0}-{1}-{2} {3}:{4}:{5}",
+                s[0] - 'A' + 2019,
+                s.Substring(1, 2),
+                s.Substring(3, 2),
+                s.Substring(5, 2),
+                s.Substring(7, 2),
+                s.Substring(9, 2));
+
+            // 2.产品类型
+
+            // 3.工单条码
+
+            // 4.器具条码
+
+            // 5.条码
+
+            // 6.RFID序列号 @280980980
+
+            // 7.OP10结果 0109  -> 01-OP10 09-OK 01-NG
+
+            // 7.OP10过渡套视觉检测 A0731 150958
+
+            // 8.OP10程序号
+
+            // 9.OP20测虑网视觉检测 0209 A0731 150958 -> 02-OP20 09-OK 01-NG
+
+            // 10.OP30常开阀结果 0309  -> 03-OP30 09-OK 01-NG
+
+            // 11.OP30GT测试高度 21579 -> 21.579
+
+            // 12.OP30程序号 CK045 -> CK0.45  TC100 -> TC1.0
+
+            // 13.OP40结果 0409  -> 04-OP40 09-OK 01-NG
+
+            // 14.OP40压力值 3061  -> 3.061
+
+            // 15.OP40位移值 49555  -> 49.555
+
+            // 16.OP40程序号 0001 -> A-Pr01 0002 -> B-Pr01 ?? 【9种】
+
+            // 17.OP40文件存储
+
+            // 18.OP50结果 0509 -> 05-OP50 09-OK 01-NG
+
+            // 19.OP50GT测试深度 12023 -> 12.023  12030 -> 12.030
+
+            // 20.OP50程序号 CK045 -> CK0.45  TC100 -> TC1.0
+
+            // 21.OP60结果 0609 -> 06-OP60 09-OK 01-NG
+
+            // 22.OP60弹簧型号  A -> A振盘
+
+            // 23.OP70结果 0709 -> 07-OP70 09-OK 01-NG
+
+            // 24.OP70阀杆理论值 12213 -> 12.213
+
+            // 25.OP70阀杆实际值 12213 -> 12.213
+
+            // 26.OP70气隙值 186 -> 0.186
+
+            // 27.OP80结果 0809 -> 08-OP80 09-OK 01-NG
+
+            // 28.OP90结果 0909 -> 09-OP90 09-OK 01-NG
+
+            // 29.OP90初始行程值 755 -> 0.755
+
+            // 30.OP90最终行程值 755 -> 0.755
+
+            // 31.OP90压力值 35 -> 0.35
+
+            // 32.OP90位移值 70021 -> 70.021
+
+            // 33.OP90程序号 0001 - 0009 -> A-CK0.45 A-CK0.65 【9种】
+
+            // 34.OP90文件存储
+
+            // 35.OP100结果 1009 -> 10-OP100 09-OK 01-NG
+
+            // 36.OP100焊接功率
+
+            // 37.OP100焊接时间 22 -> 2.2
+
+            // 38.OP100焊接转速 6 -> 0.6
+
+            // 39.OP110结果 1109 -> 11-OP110 09-OK 01-NG
+
+            // 40.OP110二维码
+
+            // 41.OP120结果 1209 -> 12-OP120 09-OK 01-NG
+
+            // 42.OP120测试行程值 241 -> 0.241
+
+            // 43.OP120程序号 A -> A-CK0.45  B -> CK0.65 【9种】
+
+            // 44.OP130结果 1309 -> 13-OP130 09-OK 01-NG
+
+            // 45.OP130单项密封圈视觉检测 A0731 140958
+
+            // 46.OP140结果 1409 -> 14-OP140 09-OK 01-NG
+
+            // 47.OP140压力值  65 -> 0.65
+
+            // 48.OP140位移值  70021 -> 70.021
+
+            // 49.OP140程序号 0001 -> Pr01 0002 -> Pr02？？？？
+
+            // 50.OP140文件存储
+
+            // 51.OP140滤网铆点视觉检测 A0731 14112
+
+            // 51.OP150结果 1509 -> 15-OP150 09-OK 01-NG
+
+            // 52.OP150测试气压 1300 -> 130.0
+
+            // 53.OP150泄露量 100 -> 1
+
+            // 54.OP150充气气压 1321 -> 132.1
+
+            // 55.OP150程序号 A -> A-Pr01 B -> B-Pr01 
+
+            // 56.OP150文件存储
+
+            // 57.OP160结果 1609 -> 16-OP160 09-OK 01-NG
+
+            // 58.OP160测试气压 99 -> 9.9
+
+            // 59.OP160泄漏量
+
+            // 60.OP160 P1值 99 -> 9.9
+
+            // 61.OP160 P2值 421 -> 4.21
+
+            // 62.OP160 P2-P1值 999 -> 9.99
+
+            // 63.OP160程序号 A -> A-CK0.45  B -> CK0.65 【9种】
+
+            // 64.OP160文件存储
+
+            // 65.OP170结果 1709 -> 17-OP170 09-OK 01-NG
         }
 
         public void onParse(StringCollection data)

@@ -167,7 +167,7 @@
   <data name="bindingNavigatorSetting.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAPKSURBVHhe7ZvthpVRFMeHiCHmArqAoa8RfYqI7mCIGKI7
+        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAPKSURBVHhe7ZvthpVRFMeHiCHmArqAoa8RfYqI7mCIGKI7
         iOgCok/RTUQMfYqIuYPuIIZhiDhERNT6HWfnaffsl7X2euY8z9mz2GbmnL3X/q//Xmu/rT17e9uRm9Lt
         Wynnm8LvfNaFHIqV36T8jgqf3eqBgXcjxgcyTnogYJUh4HsPBMSuH/+98xxcEZAJAcjZeVmsBzzarN0f
         5ecrKQeKodqXug+lvJDyK+MBfEcd6t5Q6AcLmMDGngKsbnJtozQeOTYxdzK9YPSRlPdSfhbcfswraENb
@@ -186,4 +186,7 @@
         9x6QW7u7+MfJXC7S7WGTh6tOpSOVi+zmn6chdpiLVOfqPEfmDy9oDTg/98s9AAAAAElFTkSuQmCC
 </value>
   </data>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>81</value>
+  </metadata>
 </root>

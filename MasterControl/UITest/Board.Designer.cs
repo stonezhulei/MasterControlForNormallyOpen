@@ -28,13 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Board));
             this.pnlBody = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.pnlFoot = new System.Windows.Forms.Panel();
-            this.dgvResults = new System.Windows.Forms.DataGridView();
+            this.tbxBoardTitle = new System.Windows.Forms.TextBox();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,162 +46,76 @@
             this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pnlBody.SuspendLayout();
-            this.pnlFoot.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvResults)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlBody
             // 
-            this.pnlBody.Controls.Add(this.textBox1);
-            this.pnlBody.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlBody.Controls.Add(this.tbxBoardTitle);
+            this.pnlBody.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlBody.Location = new System.Drawing.Point(0, 0);
             this.pnlBody.Margin = new System.Windows.Forms.Padding(2);
             this.pnlBody.Name = "pnlBody";
-            this.pnlBody.Size = new System.Drawing.Size(1914, 992);
+            this.pnlBody.Size = new System.Drawing.Size(1531, 838);
             this.pnlBody.TabIndex = 0;
             // 
-            // textBox1
+            // tbxBoardTitle
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Font = new System.Drawing.Font("微软雅黑", 36F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.textBox1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.textBox1.Location = new System.Drawing.Point(1736, 62);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.textBox1.Size = new System.Drawing.Size(95, 768);
-            this.textBox1.TabIndex = 100000;
-            this.textBox1.Text = "常开阀自动组装看板";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // pnlFoot
-            // 
-            this.pnlFoot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlFoot.Controls.Add(this.dgvResults);
-            this.pnlFoot.Location = new System.Drawing.Point(0, 998);
-            this.pnlFoot.Margin = new System.Windows.Forms.Padding(2);
-            this.pnlFoot.Name = "pnlFoot";
-            this.pnlFoot.Size = new System.Drawing.Size(1916, 76);
-            this.pnlFoot.TabIndex = 1;
-            // 
-            // dgvResults
-            // 
-            this.dgvResults.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvResults.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvResults.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column9,
-            this.Column10,
-            this.Column11,
-            this.Column12,
-            this.Column13,
-            this.Column14,
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4,
-            this.Column5});
-            this.dgvResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvResults.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvResults.Location = new System.Drawing.Point(0, 0);
-            this.dgvResults.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.dgvResults.Name = "dgvResults";
-            this.dgvResults.RowHeadersWidth = 40;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dgvResults.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvResults.RowTemplate.Height = 23;
-            this.dgvResults.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvResults.Size = new System.Drawing.Size(1916, 76);
-            this.dgvResults.TabIndex = 30;
+            this.tbxBoardTitle.BackColor = System.Drawing.SystemColors.Control;
+            this.tbxBoardTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbxBoardTitle.Font = new System.Drawing.Font("微软雅黑", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tbxBoardTitle.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.tbxBoardTitle.Location = new System.Drawing.Point(1440, 54);
+            this.tbxBoardTitle.Multiline = true;
+            this.tbxBoardTitle.Name = "tbxBoardTitle";
+            this.tbxBoardTitle.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tbxBoardTitle.Size = new System.Drawing.Size(79, 475);
+            this.tbxBoardTitle.TabIndex = 100000;
+            this.tbxBoardTitle.Text = "常开阀自动组装看板";
+            this.tbxBoardTitle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Column9
             // 
-            this.Column9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column9.HeaderText = "OP20常开阀底座安装站";
             this.Column9.Name = "Column9";
-            this.Column9.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column10
             // 
-            this.Column10.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column10.HeaderText = "OP30过度套收口压机站";
             this.Column10.Name = "Column10";
-            this.Column10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column11
             // 
-            this.Column11.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column11.HeaderText = "OP40孔深测量站";
             this.Column11.Name = "Column11";
-            this.Column11.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column12
             // 
-            this.Column12.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column12.HeaderText = "OP50选配阀杆站";
             this.Column12.Name = "Column12";
-            this.Column12.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column13
             // 
-            this.Column13.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column13.HeaderText = "OP70精压阀套压机站";
             this.Column13.Name = "Column13";
-            this.Column13.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column14
             // 
-            this.Column14.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column14.HeaderText = "OP080条码";
             this.Column14.Name = "Column14";
-            this.Column14.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column1
             // 
-            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column1.HeaderText = "OP90行程复测GT";
             this.Column1.Name = "Column1";
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column2
             // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column2.HeaderText = "OP100工位相机";
             this.Column2.Name = "Column2";
-            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column3
             // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column3.HeaderText = "OP110第一次拍照数据";
             this.Column3.Name = "Column3";
-            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column4
             // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column4.HeaderText = "OP120总成高压";
             this.Column4.Name = "Column4";
-            this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column5
             // 
-            this.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column5.HeaderText = "OP130总成低压";
             this.Column5.Name = "Column5";
-            this.Column5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column6
             // 
@@ -219,24 +129,21 @@
             // 
             this.Column8.Name = "Column8";
             // 
-            // Form3
+            // Board
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1914, 1047);
-            this.Controls.Add(this.pnlFoot);
+            this.ClientSize = new System.Drawing.Size(1531, 838);
             this.Controls.Add(this.pnlBody);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "Form3";
+            this.Name = "Board";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "常开线";
             this.Load += new System.EventHandler(this.Form3_Load);
             this.pnlBody.ResumeLayout(false);
             this.pnlBody.PerformLayout();
-            this.pnlFoot.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvResults)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -244,9 +151,7 @@
         #endregion
 
         private System.Windows.Forms.Panel pnlBody;
-        private System.Windows.Forms.Panel pnlFoot;
-        private System.Windows.Forms.DataGridView dgvResults;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbxBoardTitle;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;

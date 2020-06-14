@@ -19,7 +19,7 @@ namespace UITest
 
             if (id == 19)
             {
-                this.Width = 250;
+                this.Width = 220;
                 this.Height = 280;
                 this.lblTitle.Font = new System.Drawing.Font("微软雅黑", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
                 this.lblCapacity.Font = new System.Drawing.Font("微软雅黑", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
